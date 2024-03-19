@@ -1,13 +1,23 @@
 'use client'
 import Image from "next/image";
-import { Container,Flex,Heading,Text,Card,Badge,Avatar } from "@radix-ui/themes";
-import { ChatBubbleIcon,HeartIcon } from "@radix-ui/react-icons";
+import { Container,Flex,Heading,Text,Card,Badge,Avatar,TextField } from "@radix-ui/themes";
+import { ChatBubbleIcon,HeartIcon,MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import TopNav from "./ui/common/topNav";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
      <Container size="3">
+      {/* 搜索栏 */}
+      <Flex pb="5">
+        <TextField.Root>
+          <TextField.Slot>
+            <MagnifyingGlassIcon height="16" width="16" />
+          </TextField.Slot>
+          <TextField.Input size="3" radius="medium" placeholder="Search the Plog..." />
+        </TextField.Root>
+      </Flex>
       {/* pb设置一些间距 padding-bottom  */}
-        <Flex gap="3" justify="4" direction="column" pb="4">
+        <Flex gap="3" direction="column" pb="4">
           <Flex gap="3" direction="column">
           <Heading>Little Dog Book</Heading>
           <Text color="gray">Here you can find the issues relevant to your certain project.</Text>
@@ -49,7 +59,11 @@ export default function Home() {
                   {/* margin-left 边距2 */}
                   <Text color="gray" ml="2" size="1">3 Comments</Text>
                 </Flex>
-                <HeartIcon>1k+</HeartIcon>
+                <Flex align="center">
+                <HeartIcon/>
+                  {/* margin-left 边距2 */}
+                  <Text color="gray" ml="1" size="1">1k+</Text>
+                </Flex>
               </Flex>
             </Flex>
           </Card>
@@ -163,7 +177,6 @@ export default function Home() {
                   {/* margin-left 边距2 */}
                   <Text color="gray" ml="2" size="1">3 Comments</Text>
                 </Flex>
-                <HeartIcon color="gray" size="1">100</HeartIcon>
               </Flex>
             </Flex>
           </Card>
