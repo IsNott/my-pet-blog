@@ -1,7 +1,6 @@
 'use client'
 import { Container,Box,Text,Flex,TextField,Avatar} from "@radix-ui/themes"
 import { HomeIcon,MagnifyingGlassIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
-import Image from "next/image"
 export default function TopNav(){
     return(
         <main>
@@ -10,12 +9,17 @@ export default function TopNav(){
                         <Text ml="5" color="gray" weight="bold">
                             Little Dog Book
                         </Text>
-                    
+                        <TextField.Root>
+                        <TextField.Input size="2" radius="small" placeholder="Search the Plog..." />
+                        <TextField.Slot>
+                          <MagnifyingGlassIcon height="14" width="14" />
+                        </TextField.Slot>
+                      </TextField.Root>
                     <Flex align="center" mr="5" justify="between" gap="3">
                         <Text color="gray">
                             Sign In
                         </Text>
-                        <GitHubLogoIcon color="gray"/>
+                        <GitHubLogoIcon style={{marginRight:20}} color="gray"/>
                     </Flex>
                 </Flex>
 

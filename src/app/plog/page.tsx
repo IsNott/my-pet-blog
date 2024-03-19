@@ -2,26 +2,16 @@
 import Image from "next/image";
 import { Container,Flex,Heading,Text,Card,Badge,Avatar,TextField } from "@radix-ui/themes";
 import { ChatBubbleIcon,HeartIcon,MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import TopNav from "./ui/common/topNav";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
     {/* // <main> */}
-     <Container size="3">
+     <Container size="4">
       {/* 搜索栏 */}
-      <Flex pb="5">
-        <TextField.Root>
-          <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
-          </TextField.Slot>
-          <TextField.Input size="3" radius="medium" placeholder="Search the Plog..." />
-        </TextField.Root>
-      </Flex>
       {/* pb设置一些间距 padding-bottom  */}
         <Flex gap="3" direction="column" pb="4">
           <Flex gap="3" direction="column">
-          <Heading>Little Dog Book</Heading>
-          <Text color="gray">Here you can find the issues relevant to your certain project.</Text>
+          <Heading color="gray">Find Everything About Pet.</Heading>
           </Flex>
         </Flex>
         {/* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */}
