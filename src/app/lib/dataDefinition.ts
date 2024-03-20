@@ -12,7 +12,7 @@ export type Blog = {
     id: string;
     title: string;
     context: string;
-    create_time: Date;
+    create_time: string;
     likes: number;
     comments: number;
     poster_id: string;

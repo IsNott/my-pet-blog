@@ -10,17 +10,17 @@ export default function TopNav(){
                             Little Dog Book
                         </Text>
                         <TextField.Root>
-                        <TextField.Input size="2" radius="small" placeholder="Search the Plog..." />
-                        <TextField.Slot>
-                          <MagnifyingGlassIcon height="14" width="14" />
-                        </TextField.Slot>
-                      </TextField.Root>
-                    <Flex align="center" mr="5" justify="between" gap="3">
-                        <Text color="gray">
-                            Sign In
-                        </Text>
-                        <GitHubLogoIcon style={{marginRight:20}} color="gray"/>
-                    </Flex>
+                            <TextField.Input size="2" radius="small" placeholder="Search the Plog..." />
+                            <TextField.Slot>
+                            <MagnifyingGlassIcon height="14" width="14" />
+                            </TextField.Slot>
+                        </TextField.Root>
+                        <Flex align="center" mr="5" justify="between" gap="3">
+                            <Text color="gray">
+                                Sign In
+                            </Text>
+                            <GitHubLogoIcon style={{marginRight:20}} color="gray"/>
+                        </Flex>
                 </Flex>
 
             </Box>
