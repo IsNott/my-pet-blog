@@ -1,10 +1,14 @@
-'use client'
+// 'use client'
 import Image from "next/image";
 import { Container,Flex,Heading,Text,Card,Badge,Avatar,Strong } from "@radix-ui/themes";
 import { ChatBubbleIcon,HeartIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/navigation";
-export default function Home() {
-  const router = useRouter()
+// import { useRouter } from "next/navigation";
+import { getUserById } from "../api/user/data";
+import Link from "next/link";
+
+export default async function Home() {
+  const user = await getUserById('410544b2-4001-4271-9855-fec4b6a6442a')
+  // const router = useRouter()
   const id = 1
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -19,7 +23,9 @@ export default function Home() {
         </Flex>
         {/* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */}
         <Flex pb="4" gap="4" direction="row">
-          <Card onClick={()=>router.replace(`/plog/details/${id}`)}>
+          <Link href="plog/details/1">
+          <Card >
+          {/* onClick={()=>router.replace(`/plog/details/${id}`)} */}
             <Flex gap="2" direction="column">
               <Flex gap="3" justify="between">
                 {/* 头像 */}
@@ -61,6 +67,7 @@ export default function Home() {
               </Flex>
             </Flex>
           </Card>
+          </Link>
           <Card>
             <Flex gap="2" direction="column">
               <Flex gap="3" justify="between">
