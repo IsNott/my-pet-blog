@@ -1,8 +1,11 @@
 'use client'
 import Image from "next/image";
-import { Container,Flex,Heading,Text,Card,Badge,Avatar,TextField } from "@radix-ui/themes";
-import { ChatBubbleIcon,HeartIcon,MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Container,Flex,Heading,Text,Card,Badge,Avatar,Strong } from "@radix-ui/themes";
+import { ChatBubbleIcon,HeartIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter()
+  const id = 1
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
     {/* // <main> */}
@@ -16,7 +19,7 @@ export default function Home() {
         </Flex>
         {/* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */}
         <Flex pb="4" gap="4" direction="row">
-          <Card>
+          <Card onClick={()=>router.replace(`/plog/details/${id}`)}>
             <Flex gap="2" direction="column">
               <Flex gap="3" justify="between">
                 {/* 头像 */}
@@ -69,7 +72,7 @@ export default function Home() {
                   fallback="A"
                 />
                 {/* 标题 */}
-                <Text>Poster: 望月</Text>
+                <Text><Strong>望月</Strong></Text>
               </Flex>
               
               <Flex gap="2">

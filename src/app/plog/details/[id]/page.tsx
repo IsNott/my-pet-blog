@@ -1,11 +1,15 @@
+'use client'
 import { Text,Container,Card,Flex,Box,Avatar,AspectRatio,Separator,Heading } from "@radix-ui/themes"
-import { ChatBubbleIcon,HeartIcon,Share2Icon } from "@radix-ui/react-icons";
+import { ChatBubbleIcon,HeartIcon,Share2Icon,ArrowRightIcon,HeartFilledIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
+import { useRouter } from "next/navigation"
 export default function Page(id:string){
-  console.log(id);
-  
+  var [isLike, setIsVisible] = useState(false);
+  const router = useRouter()
   return(
     <Container className=" flex-col items-center p-24">
       <Card style={{ width:"100%",height:"80%"}}>
+        <Flex justify="between" direction="row">
         <Flex mb="3" gap="3" align="center">
           <Avatar
             size="3"
@@ -22,6 +26,10 @@ export default function Page(id:string){
             </Text>
           </Box>
         </Flex>
+        <ArrowRightIcon width="24" height="24" onClick={()=>router.push('/plog')}
+        />
+
+        </Flex>
         <Flex direction="row" gap="2">
           <AspectRatio ratio={16 / 8}>
             <img
@@ -37,16 +45,37 @@ export default function Page(id:string){
           </AspectRatio>  
           <Card style={{maxWidth:400}}>
             <Flex  gap="3" direction="column"  justify="between">
-            <Heading>Text Your Title Here ......</Heading>
-            <Separator style={{width:"100%"}} ></Separator>
-            <Text as="p" mb="2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam libero ac ex dapibus tempus.
+              <Heading>My Frist Blog..</Heading>
+              <Separator style={{width:"100%"}} ></Separator>
+              <Text as="p" mb="2">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam libero ac ex dapibus tempus.
               </Text>
               <Separator style={{width:"100%"}} ></Separator>
               <Flex justify="end" direction="row" gap="4">  
-                <ChatBubbleIcon/>
-                <HeartIcon/>
-                <Share2Icon/>
+                <Flex gap="2" align="center">
+                    {isLike &&  <HeartIcon height="18" width="18"
+                   onClick={()=> {
+                    if(isLike){
+                      isLike = false
+                      setIsVisible(false)
+                    }
+                   }}
+                   />}
+                  {!isLike && <HeartFilledIcon height="18" width="18"
+                  onClick={()=> {
+                    setIsVisible(!isLike)
+                   }}
+                  />}
+                  <Text>100+</Text>
+                </Flex>
+                <Flex gap="2" align="center">
+                  <ChatBubbleIcon height="18" width="18"/>
+                  <Text>20+</Text>
+                </Flex>
+                <Flex gap="2" align="center">
+                  <Share2Icon height="18" width="18"/>
+                  <Text>100+</Text>
+                </Flex>
               </Flex>
             </Flex>
           </Card>
