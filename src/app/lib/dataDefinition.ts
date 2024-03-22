@@ -18,3 +18,14 @@ export type Blog = {
     poster_id: string;
     img_urls: string;
 }
+
+export type BlogUser ={
+    title: string;
+    post_id: string;
+    likes: number;
+    comments: number;
+    img_urls: string;
+    avatar_url: string;
+    poster_name: string;
+    poster_id: string;
+}

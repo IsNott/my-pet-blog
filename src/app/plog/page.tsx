@@ -1,14 +1,14 @@
-// 'use client'
 import Image from "next/image";
 import { Container,Flex,Heading,Text,Card,Badge,Avatar,Strong } from "@radix-ui/themes";
 import { ChatBubbleIcon,HeartIcon } from "@radix-ui/react-icons";
 // import { useRouter } from "next/navigation";
-import { getUserById } from "../api/user/data";
+import { fecthRandomBlog } from "../api/blog/data";
 import Link from "next/link";
 
 export default async function Home() {
-  const user = await getUserById('410544b2-4001-4271-9855-fec4b6a6442a')
-  // const router = useRouter()
+  const posts = await fecthRandomBlog()
+  console.log(posts);
+  
   const id = 1
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
