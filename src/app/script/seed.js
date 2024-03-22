@@ -6,17 +6,18 @@ const {
   users
 } = require('../lib/placeholder-data');
 const bcrypt = require('bcrypt');
+const { exit } = require('process');
 
 async function seedUsers(pool) {
   try {
     const createTable = await pool.execute(`
-  CREATE TABLE IF NOT EXISTS users (
-    id VARCHAR(255) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    avatar_url VARCHAR(255)
-);`)
+    CREATE TABLE IF NOT EXISTS users (
+      id VARCHAR(255) PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      avatar_url VARCHAR(255)
+    );`)
 
     // Insert data into the "users" table
     const insertedUsers = await Promise.all(
@@ -27,30 +28,31 @@ async function seedUsers(pool) {
       VALUES (?,?,?,?,?)`, [user.id, user.name, user.email, hashedPassword, user.avatar_url])
       })
     );
+    return {
+      createTable,
+      users: insertedUsers,
+    };
   } catch (error) {
     console.error('Error seeding user:', error);
     throw error;
   }
 
-  return {
-    createTable,
-    users: insertedUsers,
-  };
+  
 }
 
 async function seedBolg(pool) {
   try {
     const createTable = await pool.execute(`
-  CREATE TABLE IF NOT EXISTS blog (
-    id VARCHAR(255) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    context VARCHAR(2024) NOT NULL,
-    create_time datetime,
-    likes INT,
-    comments INT,
-    poster_id VARCHAR(255) NOT NULL,
-    img_urls TEXT
-);`)
+      CREATE TABLE IF NOT EXISTS blog (
+        id VARCHAR(255) PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        context VARCHAR(2024) NOT NULL,
+        create_time datetime,
+        likes INT,
+        comments INT,
+        poster_id VARCHAR(255) NOT NULL,
+        img_urls TEXT
+    );`)
 
     // Insert data into the "users" table
     const insertedBlog = await Promise.all(
@@ -61,26 +63,31 @@ async function seedBolg(pool) {
           , plog.poster_id, plog.img_urls])
       })
     );
+
+    return {
+      createTable,
+      plogs: insertedBlog,
+    };
   } catch (error) {
     console.error('Error seeding plog:', error);
     throw error;
   }
 
-  return {
-    createTable,
-    plogs: insertedBlog,
-  };
+  
 }
 
 async function main() {
+  // console.log(process.env);
   const pool = mysql2.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
+    port: process.env.MYSQL_PORT,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE
   }).promise()
   await seedUsers(pool);
   await seedBolg(pool);
+  exit()
 }
 
 main().catch((err) => {

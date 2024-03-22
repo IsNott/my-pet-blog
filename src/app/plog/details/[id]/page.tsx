@@ -2,10 +2,28 @@
 import { Text,Container,Card,Flex,Box,Avatar,AspectRatio,Separator,Heading } from "@radix-ui/themes"
 import { ChatBubbleIcon,HeartIcon,Share2Icon,ArrowRightIcon,HeartFilledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import { useRouter } from "next/navigation"
+import Link from "next/link";
 export default function Page(id:string){
   var [isLike, setIsVisible] = useState(false);
-  const router = useRouter()
+  // const router = useRouter()  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = [
+    'https://images.unsplash.com/photo-1479030160180-b1860951d696?&auto=format&fit=crop&w=1200&q=80',
+    '/20240322105634.jpg',
+    '/20240322105648.jpg',
+    '/20240322105655.jpg'
+  ]
+
+
+// 切换到下一张图片
+const showNextImage = () => {
+  if (currentImageIndex < images.length - 1) {
+    setCurrentImageIndex(currentImageIndex + 1);
+  }
+  if(currentImageIndex == images.length - 1){
+    setCurrentImageIndex(0)
+  }
+};
   return(
     <Container className=" flex-col items-center p-24">
       <Card style={{ width:"100%",height:"80%"}}>
@@ -26,14 +44,16 @@ export default function Page(id:string){
             </Text>
           </Box>
         </Flex>
-        <ArrowRightIcon width="24" height="24" onClick={()=>router.push('/plog')}
+        <Link href={"/plog"}>
+        <ArrowRightIcon width="24" height="24" 
         />
+        </Link>
 
         </Flex>
         <Flex direction="row" gap="2">
-          <AspectRatio ratio={16 / 8}>
+          <AspectRatio onClick={showNextImage} ratio={16 / 8}>
             <img
-              src="https://images.unsplash.com/photo-1479030160180-b1860951d696?&auto=format&fit=crop&w=1200&q=80"
+              src={images[currentImageIndex]}
               alt="A house in a forest"
               style={{
                 objectFit: 'cover',
