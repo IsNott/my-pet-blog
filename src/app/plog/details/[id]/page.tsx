@@ -1,8 +1,9 @@
 import { getBlogById } from "@/app/api/blog/data"
 import { getUserById } from "@/app/api/user/data"
 import DetailCard from "@/app/ui/plog/detailCard"
-export default async function Page(id:string){
-  const blog = await getBlogById('41053414b2-4001-4271-9855-fec4b6a6442a')
+export default async function Page(param:string){
+  const id = JSON.parse(JSON.stringify(param)).params.id
+  const blog = await getBlogById(id)
   const sender = await getUserById(blog.poster_id)
   return(
     <main>

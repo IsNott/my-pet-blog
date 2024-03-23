@@ -59,9 +59,9 @@ export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
               </AspectRatio>  
               <Card style={{maxWidth:400}}>
                 <Flex gap="3" direction="column"  justify="between">
-                  <Heading mr="2">{blog.title}</Heading>
+                  <Heading style={{width:388}} mr="2">{blog.title}</Heading>
                   <Separator style={{width:"100%"}} ></Separator>
-                  <Text as="p" mb="2">
+                  <Text style={{height:360}} as="p" mb="2">
                     {blog.context}
                   </Text>
                   <Separator style={{width:"100%"}} ></Separator>

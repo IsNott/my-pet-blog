@@ -1,6 +1,6 @@
 'use client'
-import { Container,Box,Text,Flex,TextField,Avatar} from "@radix-ui/themes"
-import { HomeIcon,MagnifyingGlassIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
+import { Box,Text,Flex,TextField,Avatar} from "@radix-ui/themes"
+import { MoonIcon,MagnifyingGlassIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
 export default function TopNav(){
     return(
         <main>
@@ -19,7 +19,8 @@ export default function TopNav(){
                             <Text color="gray">
                                 Sign In
                             </Text>
-                            <GitHubLogoIcon style={{marginRight:20}} color="gray"/>
+                            <MoonIcon height="18" width="18" style={{marginRight:2}} color="gray"/>
+                            <GitHubLogoIcon height="18" width="18" style={{marginRight:20}} color="gray"/>
                         </Flex>
                 </Flex>
 
