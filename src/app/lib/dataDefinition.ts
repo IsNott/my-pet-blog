@@ -17,6 +17,7 @@ export type Blog = {
     comments: number;
     poster_id: string;
     img_urls: string;
+    tags: string;
 }
 
 export type BlogUser ={
@@ -28,4 +29,10 @@ export type BlogUser ={
     avatar_url: string;
     poster_name: string;
     poster_id: string;
+    tags: string;
+}
+
+export type tags = {
+   id: string;
+   tag_name: string;
 }

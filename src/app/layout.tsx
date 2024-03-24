@@ -4,7 +4,6 @@ import "./globals.css";
 // 引入radis-ui
 import "@radix-ui/themes/styles.css"
 import { Theme,ThemePanel } from "@radix-ui/themes";
-import TopNav from "./ui/common/topNav";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -4,6 +4,8 @@ import { ChatBubbleIcon ,HeartIcon} from "@radix-ui/react-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { BlogUser } from "@/app/lib/dataDefinition";
+import getRandomColor from "@/app/lib/utils";
+import tagsColors from '@/app/lib/enum'
 
 export default async function CardWarpper() {
     const plogs = await fecthRandomBlog()
@@ -23,11 +25,12 @@ export default async function CardWarpper() {
     )
 };
 
-function CardRow(param:BlogUser[]) {
-    console.log(param.blogs.length);
+async function CardRow(param) { 
+    const blogs = param.blogs
     return(
       <>
-      {param.blogs.map((plog)=>{
+      {blogs.map((plog:BlogUser)=>{
+        const color = getRandomColor(tagsColors)        
         const link = "/plog/details/" + plog.post_id
         const imgUrl = plog.img_urls.split(",")[0]
         {/* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */}
@@ -49,7 +52,7 @@ function CardRow(param:BlogUser[]) {
               
               <Flex gap="4">
                 {/* 添加一些小徽章，表示Tag */}
-                <Badge color="orange">Tag</Badge>
+                <Badge color={color}>{plog.tags}</Badge>
               </Flex>
               <Flex gap="2">
                 <Image
