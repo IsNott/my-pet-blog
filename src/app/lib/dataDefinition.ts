@@ -32,6 +32,7 @@ export type BlogUser ={
     tags: string;
 }
 
+
 export type tags = {
    id: string;
    tag_name: string;

@@ -1,6 +1,6 @@
-import { Card,Flex,Avatar,Text,Strong,Badge } from "@radix-ui/themes"
-import { ChatBubbleIcon,HeartIcon } from "@radix-ui/react-icons"
-import { Z_VERSION_ERROR } from "zlib"
+import { Card,Flex,Avatar,Text,Strong
+  ,Badge,Container,Box,Link,AspectRatio,Heading,Separator} from "@radix-ui/themes"
+import { ChatBubbleIcon,HeartIcon,ArrowRightIcon,Share2Icon } from "@radix-ui/react-icons"
 export function IndexCardSkeleton(){
   return(
     <>
@@ -63,5 +63,74 @@ export function CardSkeleton(){
             </Flex>
           </Card>
     </Card>
+  )
+}
+
+export function DetailCardSkeleton(){
+  return(
+    <Container className=" flex-col items-center p-24">
+          <Card style={{ width:"100%",height:"80%"}}>
+            <Flex justify="between" direction="row">
+            <Flex mb="3" gap="3" align="center">
+              <Avatar 
+                size="3"
+                src={""}
+                radius="full"
+                fallback="A"
+              />
+              <Box>
+                <Text as="div" size="2" weight="bold">
+                  -
+                </Text>
+                <Text as="div" size="2" color="gray">
+                  -
+                </Text>
+              </Box>
+            </Flex>
+            <Link href={"/plog"}>
+            <ArrowRightIcon width="24" height="24" 
+            />
+            </Link>
+    
+            </Flex>
+            <Flex direction="row" gap="2">
+              <AspectRatio ratio={16 / 8}>
+                <img
+                  src={""}
+                  alt={"default skeleton"}
+                  style={{
+                    objectFit: 'cover',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 'var(--radius-2)',
+                  }}
+                />
+              </AspectRatio>  
+              <Card style={{maxWidth:400}}>
+                <Flex gap="3" direction="column"  justify="between">
+                  <Heading style={{width:388}} mr="2">-</Heading>
+                  <Separator style={{width:"100%"}} ></Separator>
+                  <Text style={{height:360}} as="p" mb="2">
+                    -
+                  </Text>
+                  <Separator style={{width:"100%"}} ></Separator>
+                  <Flex justify="end" direction="row" gap="4">  
+                    <Flex gap="2" align="center">
+                    <HeartIcon height="18" width="18"/>
+                      <Text>-</Text>
+                    </Flex>
+                    <Flex gap="2" align="center">
+                      <ChatBubbleIcon height="18" width="18"/>
+                      <Text>-</Text>
+                    </Flex>
+                    <Flex gap="2" mr="2" align="center">
+                      <Share2Icon height="18" width="18"/>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </Card>
+            </Flex>
+        </Card>
+        </Container>
   )
 }

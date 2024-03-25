@@ -3,4 +3,10 @@ const getRandomColor = (tagsColors:string[]) => {
   return tagsColors[randomIndex];
 };
 
-export default getRandomColor
+function getTotalPage(pageSize:number,total:number) {
+  return Math.ceil(total%pageSize == 0 ? total/pageSize: total/pageSize + 1)
+}
+
+export {
+  getRandomColor,getTotalPage
+}

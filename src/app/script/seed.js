@@ -77,7 +77,6 @@ async function seedBolg(pool) {
 }
 
 async function main() {
-  // console.log(process.env);
   const pool = mysql2.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
