@@ -18,15 +18,17 @@ interface BlogParam {
 
 interface QueryParam {
   pageNum: any,
-  size: number
+  size: number,
+  query: any
 }
 
 export default async function CardWarpper(param:QueryParam) {
-    const countPlogs = await fecthBlogCount()
+    const countPlogs = await fecthBlogCount(param.query)    
     const totalPage = getTotalPage(defaultPageSize,countPlogs.totalResult)
     const plogs = await fecthRandomBlog({
       size: param.size ? param.size : defaultPageSize,
-      num : param.pageNum
+      num : param.pageNum,
+      keyword: param.query
     })
     let firstHalfPLogs, secondHalfPLogs;
     if (plogs.slice(0, plogs.length / 2).length < plogs.slice(plogs.length / 2).length) {

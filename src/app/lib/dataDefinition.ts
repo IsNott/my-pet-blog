@@ -37,3 +37,21 @@ export type tags = {
    id: string;
    tag_name: string;
 }
+
+export enum Expression {
+    GE = '>=',
+    LE = '<=',
+    EQ = '=',
+    NE = '!=',
+    GT = '>',
+    LT = '<',
+    LIKE = 'like',
+    NULL = 'IS NULL',
+    NOT_NULL = 'NOT NULL'
+}
+
+export type Condition = {
+    val: any;
+    field: string;
+    expression: Expression;
+}

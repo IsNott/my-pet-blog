@@ -1,7 +1,7 @@
 'use client'
 
 import { Blog,User } from "@/app/lib/dataDefinition";
-import { Text,Container,Card,Flex,Box,Avatar,AspectRatio,Separator,Heading } from "@radix-ui/themes"
+import { Text,Container,Card,Flex,Box,Avatar,AspectRatio,Separator,Heading,ScrollArea } from "@radix-ui/themes"
 import { ChatBubbleIcon,HeartIcon,Share2Icon,ArrowRightIcon,HeartFilledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import Link from "next/link";
@@ -61,9 +61,11 @@ export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
                 <Flex gap="3" direction="column"  justify="between">
                   <Heading style={{width:388}} mr="2">{blog.title}</Heading>
                   <Separator style={{width:"100%"}} ></Separator>
-                  <Text style={{height:360}} as="p" mb="2">
-                    {blog.context}
-                  </Text>
+                  <ScrollArea type="always" scrollbars="vertical" style={{ height: 320 }}>
+                    <Text as="p" mb="2">
+                      {blog.context}
+                    </Text>
+                  </ScrollArea>
                   <Separator style={{width:"100%"}} ></Separator>
                   <Flex justify="end" direction="row" gap="4">  
                     <Flex gap="2" align="center">
