@@ -19,6 +19,9 @@ export default function TopNav(){
                         </Link>
                         <Search placeholder={placeText}/>
                         <Flex align="center" mr="5" justify="between" gap="5">
+                            <Text size="2">
+                              New Post
+                            </Text>
                             <Link href={"/plog/sign-board"}>
                               <Text size="2" color="gray">
                                 SignBoard
