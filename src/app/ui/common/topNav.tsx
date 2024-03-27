@@ -24,9 +24,11 @@ export default function TopNav(){
                                 SignBoard
                               </Text>
                             </Link>
-                            <Text size="2" color="gray">
-                                SignIn
-                            </Text>
+                            <Link href={"/login"}>
+                              <Text size="2" color="gray">
+                                  SignIn
+                              </Text>
+                            </Link>
                             <MoonIcon height="18" width="18" style={{marginRight:2}} color="gray"/>
                             <a href="https://github.com/IsNott">
                             <GitHubLogoIcon height="18" width="18" style={{marginRight:20}} color="gray"/>
