@@ -1,6 +1,7 @@
 'use client'
-import { Box,Text,Flex,TextField} from "@radix-ui/themes"
-import { MoonIcon,MagnifyingGlassIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
+import { Box,Text,Flex} from "@radix-ui/themes"
+import { MoonIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
+import CreateForm from "./create-form"
 import Link from "next/link"
 import Search from "./search"
 
@@ -19,9 +20,12 @@ export default function TopNav(){
                         </Link>
                         <Search placeholder={placeText}/>
                         <Flex align="center" mr="5" justify="between" gap="5">
+                            {/* <Link href="">
                             <Text size="2">
                               New Post
                             </Text>
+                            </Link> */}
+                            <CreateForm/>
                             <Link href={"/plog/sign-board"}>
                               <Text size="2" color="gray">
                                 SignBoard
