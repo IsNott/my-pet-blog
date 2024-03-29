@@ -1,9 +1,9 @@
 'use client'
 import { AlertDialog,Text,Button,Flex,Card,Separator,Strong,Heading,TextField,TextArea, Box } from "@radix-ui/themes"
 import { useFormState,useFormStatus } from "react-dom"
-import * as Label from '@radix-ui/react-label';
 import { doNewPost } from "@/app/lib/action"
 import Link from "next/link"
+import UploadImage from "./upload-form"
 export default function CreateForm() {
     const [errorMessage, dispatch] = useFormState(doNewPost, undefined);
     return(
@@ -36,6 +36,10 @@ export default function CreateForm() {
                                 <Box style={{width:"300"}}>
                                     <TextArea size="2" placeholder="Reply to comment…" />
                                 </Box>
+                            </Flex>
+                            <Flex direction="row" gap="3" align="center">
+                                <Text>Upload Images</Text>
+                                <UploadImage/>
                             </Flex>
                         </Flex>
                     </Card>
