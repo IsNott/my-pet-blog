@@ -38,7 +38,7 @@ export default function CreateForm() {
                                 </Box>
                             </Flex>
                             <Flex direction="row" gap="3" align="center">
-                                <Text>Upload Images</Text>
+                                <Text>Images</Text>
                                 <UploadImage/>
                             </Flex>
                         </Flex>
