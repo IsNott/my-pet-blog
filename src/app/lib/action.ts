@@ -37,8 +37,11 @@ export async function doNewPost(
 }
 
 export async function uploadFile(formData: FormData) {
-  console.log('11111');
-  
+  console.log('11111',formData);
+  console.log('11111',formData.get('file'));
+    if(formData.get('file') === null){
+      return null
+    }
     try {
       const res = await fetch('http://127.0.0.1:9091/file/upload',{
         method: 'POST',

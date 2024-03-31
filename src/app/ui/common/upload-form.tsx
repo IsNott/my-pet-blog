@@ -4,7 +4,8 @@ import { Button,Flex } from '@radix-ui/themes';
 import { uploadFile,getFilePreView } from '@/app/lib/action';
 import { any } from 'zod';
 import Image from 'next/image';
-
+import ImgBox from './img-box';
+import { useEffect } from 'react';
 export default function UploadImage() {
   const [file, setFile] = useState(null);
   const [uploadedFile,setUploadedFile] = useState([])
@@ -12,14 +13,32 @@ export default function UploadImage() {
   // 捕获文件添加到文件列表
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
-    const filedom = document.getElementById('submitUpload');
-      filedom?.click()
   }
+
+  // 监听 uploadId 的变化
+  useEffect(() => {
+    const orgFile = file
+    if (file !== undefined || orgFile != file) {
+      const filedom = document.getElementById('submitUpload');
+      filedom?.click()
+    }
+  }, [file]);
+
+  
+
+  useEffect
 
   // 模拟点击按钮
   const handldWareFile = ()=>{
+    setFile(null)
     const filedom = document.getElementById('file');
     filedom?.click()
+  }
+
+  const onDelete = (id:string) => {
+    if(uploadedFile.includes(id)){
+      setUploadedFile(uploadedFile.filter((e) => e !== id))
+    }
   }
 
   const handleUpload = async () => {
@@ -61,13 +80,24 @@ export default function UploadImage() {
       {uploadedFile.length > 0 && (
         <Flex direction="row">
           {uploadedFile.map(id => (
-            <Image
+            <>
+              {/* <Image
             width={100}
             height={100}
             key={id} 
             id={id}
             alt={'uploadFile' + id}
-            src={handlePreView(id)}/>
+            src={handlePreView(id)}/> */}
+            <ImgBox
+            width={100}
+            height={100}
+            key={id+"1"} 
+            id={id+"1"}
+            alt={'uploadFile' + id}
+            url={handlePreView(id)}
+            onDelete={onDelete(id)}
+            />
+            </>
           ))}
         </Flex>
       )}
