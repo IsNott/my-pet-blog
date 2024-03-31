@@ -12,7 +12,7 @@ import { Cross1Icon,CheckIcon } from "@radix-ui/react-icons"
 export default function UploadImage() {
   const [file, setFile] = useState(null);
   const [uploadedFile,setUploadedFile] = useState([])
-  
+  const [ImgUrls,setImgUrls] = useState([])
   // 捕获文件添加到文件列表
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -25,6 +25,15 @@ export default function UploadImage() {
       filedom?.click()
     }
   }, [file]);
+
+    // 监听 uploadId 的变化
+    useEffect(() => {
+      if(uploadedFile.length > 1){
+        uploadedFile.forEach((r)=>{
+          setImgUrls([...ImgUrls,handlePreView(r)])
+        })
+      }
+    }, [uploadedFile]);
 
   // 模拟点击选择文件按钮
   const handldWareFile = ()=>{
@@ -97,7 +106,7 @@ export default function UploadImage() {
             key={id} 
             id={id}
             alt={'uploadFile' + id}
-            src={handlePreView(id)}
+            src={}
             onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
             />
             {showDelete && (
