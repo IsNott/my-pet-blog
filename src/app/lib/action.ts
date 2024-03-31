@@ -37,9 +37,7 @@ export async function doNewPost(
 }
 
 export async function uploadFile(formData: FormData) {
-  console.log('11111',formData);
-  console.log('11111',formData.get('file'));
-    if(formData.get('file') === null){
+    if(!formData.get('file')){
       return null
     }
     try {
@@ -48,7 +46,6 @@ export async function uploadFile(formData: FormData) {
         body: formData,
       })
       const resp = await res.json()
-      console.log('11111',resp);
       // return resp
       if(resp.code !== 200){
         throw new Error(resp.message? resp.message: 'fetch upload file failed')
@@ -68,7 +65,6 @@ export async function getFilePreView(id: string) {
       method:'post'
     })
     const resp = await res.json()
-    console.log(resp);
     
     if(resp.code !== 200){
       throw new Error('fetch upload file failed')

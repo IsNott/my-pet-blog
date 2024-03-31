@@ -11,7 +11,7 @@ export default function ImgBox(
   onDelete:any
   ) {
     const [showDelete, setShowDelete] = useState(false);
-  
+    
     const handleMouseEnter = () => {
       setShowDelete(true);
     };
