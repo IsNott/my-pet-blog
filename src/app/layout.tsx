@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import ThemeButton from "./ui/common/theme";
 import { ThemeElement } from "./ui/common/theme";
 import "./globals.css";
 import "@radix-ui/themes/styles.css"
-
+import ReduxProvider from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ReduxProvider>{children}</ReduxProvider>
         <ThemeElement children={children}/>
       </body>
     </html>
