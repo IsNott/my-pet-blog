@@ -1,6 +1,5 @@
-import { Card,Flex,Avatar,Text,Strong
-  ,Badge,Container,Box,Link,AspectRatio,Heading,Separator} from "@radix-ui/themes"
-import { ChatBubbleIcon,HeartIcon,ArrowRightIcon,Share2Icon } from "@radix-ui/react-icons"
+import { Card,Flex,Avatar,Text,Container,Box,Link,AspectRatio,Separator,Skeleton} from "@radix-ui/themes"
+import { ChatBubbleIcon,HeartIcon,ArrowRightIcon } from "@radix-ui/react-icons"
 export function IndexCardSkeleton(){
   return(
     <>
@@ -25,39 +24,33 @@ export function CardSkeleton(){
             <Flex gap="2" direction="column">
               <Flex gap="3" justify="between">
                 {/* 头像 */}
-                <div className="flex items-center">
-                <div style={{width:20,height:20,backgroundColor:"gray"}}>
-                </div>
-                </div>
+                <Skeleton className="w-8 h-8" />
                 {/* 标题 */}
-                <Text><Strong>-</Strong></Text>
+                <Text><Skeleton>username</Skeleton></Text>
               </Flex>
-              
               <Flex gap="4">
-                {/* 添加一些小徽章，表示Tag */}
-                <Badge>tag</Badge>
+                {/* 小徽章*/}
+                <Skeleton className="h-4 w-8"/>
               </Flex>
               <Flex gap="2">
+              <Skeleton>
               <div className="flex p-4">
                   <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
-                  <div style={{width:200,height:300}} className="rounded-md bg-gray-200" />
+                  <div style={{width:200,height:280}} className="rounded-md bg-gray-200" />
                   </div>
-              </div>              
-                
+              </div>      
+              </Skeleton>        
               </Flex>
-              {/* padding-top justify=between：优先考虑两个事物之间的空间*/}
-              {/* 假设一行中只有两个物品，会尽量在他们之间保持最大空间 */}
               <Flex justify="between" pt="1">
-              {/* 图标对齐文本 align-对齐 */}
                 <Flex align="center">
-                  <ChatBubbleIcon/>
-                  {/* margin-left 边距2 */}
-                  <Text color="gray" ml="2" size="1">Comments</Text>
+                <Skeleton><ChatBubbleIcon/></Skeleton>
+                  {/* 评论*/}
+                  <Text color="gray" ml="2" size="1"><Skeleton>100 comments</Skeleton></Text>
                 </Flex>
                 <Flex align="center">
-                <HeartIcon/>
-                  {/* margin-left 边距2 */}
-                  <Text color="gray" ml="1" size="1">-</Text>
+                <Skeleton><HeartIcon/></Skeleton>
+                  {/* 点赞 */}
+                  <Text color="gray" ml="1" size="1"><Skeleton>1k+like</Skeleton></Text>
                 </Flex>
               </Flex>
             </Flex>
@@ -68,64 +61,65 @@ export function CardSkeleton(){
 
 export function DetailCardSkeleton(){
   return(
-    <Container className=" flex-col items-center p-24">
-          <Card style={{ width:"100%",height:"80%"}}>
+    <Container className="flex-col items-center p-24">
+          <Card style={{width:"100%",height:"80%"}}>
             <Flex justify="between" direction="row">
             <Flex mb="3" gap="3" align="center">
-              <Avatar 
-                size="3"
-                src={""}
-                radius="full"
-                fallback="A"
-              />
+              <Skeleton>
+                <Avatar 
+                  size="3"
+                  src={""}
+                  radius="full"
+                  fallback="A"
+                />
+              </Skeleton>
               <Box>
-                <Text as="div" size="2" weight="bold">
-                  -
-                </Text>
-                <Text as="div" size="2" color="gray">
-                  -
-                </Text>
+                <Skeleton>
+                  <Text mb="2" as="div" size="2" weight="bold">
+                    username
+                  </Text>
+                </Skeleton>
+                <Skeleton>
+                  <Text as="div" size="2" color="gray">
+                    nott/Test@email.com
+                  </Text>
+                </Skeleton>
               </Box>
             </Flex>
             <Link href={"/plog"}>
-            <ArrowRightIcon width="24" height="24" 
-            />
+            <ArrowRightIcon width="24" height="24" />
             </Link>
     
             </Flex>
             <Flex direction="row" gap="2">
-              <AspectRatio ratio={16 / 8}>
-                <img
-                  src={""}
-                  alt={"default skeleton"}
-                  style={{
-                    objectFit: 'cover',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 'var(--radius-2)',
-                  }}
-                />
+                <Skeleton>
+                  <AspectRatio ratio={16 / 8}>
+                  <img
+                    src={""}
+                    alt={"default skeleton"}
+                    style={{
+                      objectFit: 'cover',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 'var(--radius-2)',
+                    }}
+                  />
               </AspectRatio>  
+                </Skeleton>
               <Card style={{maxWidth:400}}>
                 <Flex gap="3" direction="column"  justify="between">
-                  <Heading style={{width:388}} mr="2">-</Heading>
-                  <Separator style={{width:"100%"}} ></Separator>
-                  <Text style={{height:360}} as="p" mb="2">
-                    -
-                  </Text>
+                  <Skeleton><Text>A Long Title here..</Text></Skeleton>
+                  <Separator style={{width:"100%"}} />
+                    <Skeleton>
+                      <Text style={{height:360}} as="p" mb="2">
+                      -
+                      </Text>
+                    </Skeleton>
                   <Separator style={{width:"100%"}} ></Separator>
                   <Flex justify="end" direction="row" gap="4">  
-                    <Flex gap="2" align="center">
-                    <HeartIcon height="18" width="18"/>
-                      <Text>-</Text>
-                    </Flex>
-                    <Flex gap="2" align="center">
-                      <ChatBubbleIcon height="18" width="18"/>
-                      <Text>-</Text>
-                    </Flex>
-                    <Flex gap="2" mr="2" align="center">
-                      <Share2Icon height="18" width="18"/>
-                    </Flex>
+                    <Skeleton>
+                      <Text>This is like bar</Text>
+                    </Skeleton>
                   </Flex>
                 </Flex>
               </Card>

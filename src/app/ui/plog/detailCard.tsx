@@ -6,7 +6,7 @@ import { ChatBubbleIcon,HeartIcon,Share2Icon,ArrowRightIcon,HeartFilledIcon } fr
 import { useState } from "react";
 import Link from "next/link";
 export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
-    var [isLike, setIsVisible] = useState(false);  
+  var [isLike, setIsVisible] = useState(false);  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = blog.img_urls.split(',')
   // 切换到下一张图片

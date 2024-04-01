@@ -31,11 +31,11 @@ export default function CreateForm() {
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Title</Strong></Text>
                                 <Separator size="4"/>
-                                <TextField.Root placeholder="Search the docs…">
+                                <TextField.Input placeholder="Search the docs…">
                                   {/* <TextField.Slot>
                                     <MagnifyingGlassIcon height="16" width="16" />
                                   </TextField.Slot> */}
-                                </TextField.Root>
+                                </TextField.Input>
                                 {/* <input className="Input" type="text" id="firstName" placeholder="Type something" /> */}
                             </Flex>
                             <Flex direction="column" gap="3">

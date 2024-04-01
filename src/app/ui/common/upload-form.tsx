@@ -85,42 +85,42 @@ export default function UploadImage() {
 
   return (
     <Flex direction="column">
-      <input 
-        name="file"
-        id="file" style={{display:"none"}} 
-        accept='.png,.jpg'
-        type="file" onChange={handleFileChange} />
+        <input 
+          name="file"
+          id="file" style={{display:"none"}} 
+          accept='.png,.jpg'
+          type="file" onChange={handleFileChange} />
       <Flex direction="row">
-      <button onClick={handldWareFile}>
-        <div className='board'>
-          <PlusIcon height="100" width="100"/>
-        </div>
-      </button>
-      {uploadedFile.length > 0 && (
-        <Flex direction="row">
-          {uploadedFile.map(id => (
-            <div key={id} style={{ position: 'relative', display: 'inline-block' }}>
-            <Image
-            width={100}
-            height={100}
-            key={id} 
-            id={id}
-            alt={'uploadFile' + id}
-            src={}
-            onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
-            />
-            {showDelete && (
-              <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
-                <button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</button>
+        <button onClick={handldWareFile}>
+          <div className='board'>
+            <PlusIcon height="100" width="100"/>
+          </div>
+        </button>
+        {uploadedFile.length > 0 && (
+          <Flex direction="row">
+            {uploadedFile.map(id => (
+              <div key={id} style={{ position: 'relative', display: 'inline-block' }}>
+              <Image
+              width={100}
+              height={100}
+              key={id} 
+              id={id}
+              alt={'uploadFile' + id}
+              src={""}
+              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
+              />
+              {showDelete && (
+                <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
+                  <button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</button>
+                </div>
+              )}
               </div>
-            )}
-            </div>
-          ))}
-        </Flex>
-      )}
+            ))}
+          </Flex>
+        )}
       </Flex>
       <Button id='submitUpload' style={{display:"none"}} onClick={handleUpload}>Upload Image</Button>
-      </Flex>
+    </Flex>
   )
 }
 
