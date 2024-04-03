@@ -4,6 +4,7 @@ import { MoonIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
 import CreateForm from "./create-form"
 import Link from "next/link"
 import Search from "./search"
+import ThemeButton from "./theme"
 
 export default function TopNav(){
     let placeText = 'Search Plog ...'
@@ -31,7 +32,8 @@ export default function TopNav(){
                                   SignIn
                               </Text>
                             </Link>
-                            <MoonIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:2}} color="gray"/>
+                            {/* <MoonIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:2}} color="gray"/> */}
+                            <ThemeButton/>
                             <a href="https://github.com/IsNott">
                             <GitHubLogoIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:20}} color="gray"/>
                             </a>

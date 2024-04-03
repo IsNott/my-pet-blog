@@ -2,14 +2,14 @@ import {createSlice,PayloadAction} from "@reduxjs/toolkit"
 
 
 
-const initialState = 'dark'
+const initialState = false
 
-export const themeSlice = createSlice({
+export const theme = createSlice({
   name:"theme",
   initialState,
   reducers:{
-    change: (state,payload:PayloadAction<string>) => {
-      return state === initialState ? 'light' : 'dark'
+    change: (state) => {
+      return state === initialState ? !initialState : initialState
     }
   }
 })

@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>{children}</ReduxProvider>
-        <ThemeElement children={children}/>
+        <ReduxProvider><ThemeElement>{children}</ThemeElement></ReduxProvider>
+        
       </body>
     </html>
   );
