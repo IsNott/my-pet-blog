@@ -5,6 +5,7 @@ import { MoonIcon,SunIcon } from "@radix-ui/react-icons";
 import { change } from "@/redux/features/theme-slice";
 import { useDispatch } from 'react-redux'
 import { AppDispatch,useAppSelector } from "@/redux/store";
+import Link from "next/link";
 
 
 
@@ -18,7 +19,8 @@ export default function ThemeButton(){
     }
     
     return(
-      <Text onClick={handleClick}> 
+      <Link href="">
+        <Text onClick={handleClick}> 
        {useLight && <SunIcon className="hidden md:block sm:block" 
         height="18" width="18" 
         style={{marginRight:2}} color="gray"/>}
@@ -26,8 +28,9 @@ export default function ThemeButton(){
         height="18" width="18" 
         style={{marginRight:2}} color="gray"/>}
       </Text>
+      </Link>
     )
-  }``
+  }
 
 export function ThemeElement({children}: {children: React.ReactNode}){
     const useLight = useAppSelector((state) => state.themeReducer)

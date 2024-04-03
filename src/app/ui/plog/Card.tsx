@@ -1,6 +1,6 @@
 import { fecthRandomBlog,fecthBlogCount } from "@/app/api/blog/data";
 import { Flex,Card,Avatar,Text,Badge,Strong} from "@radix-ui/themes";
-import { ChatBubbleIcon ,HeartIcon} from "@radix-ui/react-icons";
+import { CardStackIcon, ChatBubbleIcon ,HeartIcon} from "@radix-ui/react-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { BlogUser } from "@/app/lib/dataDefinition";
@@ -8,6 +8,8 @@ import { getRandomColor } from "@/app/lib/utils";
 import tagsColors from '@/app/lib/enum'
 import { getTotalPage } from "@/app/lib/utils";
 import Pagination from "@/app/ui/common/pagination";
+import { Suspense } from "react";
+import { CardSkeleton } from "./skeletons";
 
 const defaultPageSize = 8
 
@@ -69,6 +71,7 @@ async function CardRow(param:BlogParam) {
         const badge = getTags(tags)
         {/* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */}
         return (
+          <Suspense key={plog.post_id} fallback={<CardSkeleton/>}>
           <Link key={plog.post_id} href={link}>
           <Card style={{ maxWidth: 300 }}>
             {/* top */}
@@ -121,6 +124,7 @@ async function CardRow(param:BlogParam) {
             </Flex>
           </Card>
         </Link>
+          </Suspense>
         )
       })}
       </>
