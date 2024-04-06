@@ -8,11 +8,12 @@ import { getRandomColor } from "@/app/lib/utils";
 import tagsColors from '@/app/lib/enum'
 import { getTotalPage } from "@/app/lib/utils";
 import Pagination from "@/app/ui/common/pagination";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { CardSkeleton } from "./skeletons";
+import dynamic from "next/dynamic";
 
 const defaultPageSize = 8
-
+const PageComponent = dynamic(() => import('@/app/ui/common/pagination'), { ssr: false })
 
 interface BlogParam {
   blogs: BlogUser[]
@@ -20,7 +21,7 @@ interface BlogParam {
 
 interface QueryParam {
   pageNum: any,
-  size: number,
+  size: number | undefined,
   query: any
 }
 
@@ -145,4 +146,5 @@ function getTags(tags:string[]){
     </div>
   )
 }
+
 

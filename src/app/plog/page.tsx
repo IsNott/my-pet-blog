@@ -1,14 +1,14 @@
-import { Tooltip,Container,IconButton } from "@radix-ui/themes";
+import { Container,IconButton } from "@radix-ui/themes";
 import CardWarpper from "@/app/ui/plog/Card";
 import { Suspense } from 'react';
 import { IndexCardSkeleton } from "@/app/ui/plog/skeletons";
-import { PlusIcon } from "@radix-ui/react-icons";
 export default function Home({
   searchParams
 }: {
   searchParams?: {
     query?: string;
     page?: string;
+    size?: number | undefined
   }
 }) {
   return (
@@ -17,12 +17,10 @@ export default function Home({
     {/* // <main> */}
      <Container size="4">
       <Suspense fallback={<IndexCardSkeleton/>}>
-        <CardWarpper query={searchParams?.query} pageNum={searchParams?.page}/>
+        <CardWarpper size={searchParams?.size} query={searchParams?.query} pageNum={searchParams?.page}/>
       </Suspense>
      </Container>
     </main>
   );
 }
-
-
 
