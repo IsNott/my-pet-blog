@@ -8,11 +8,11 @@ import ImgBox from './img-box';
 import { useEffect } from 'react';
 import { Cross1Icon,CheckIcon } from "@radix-ui/react-icons"
 
-
 export default function UploadImage() {
-  const [file, setFile] = useState(null);
-  const [uploadedFile,setUploadedFile] = useState([])
-  const [ImgUrls,setImgUrls] = useState([])
+  const crypto = require('crypto');
+  const [file, setFile] = useState('');
+  const [uploadedFileId,setUploadedFileIds] = useState<string[]>([])
+  const [ImgUrls,setImgUrls] = useState<string[]>([])
   // 捕获文件添加到文件列表
   const handleFileChange = (e) => {
     setFile(e.target.files[0])
@@ -28,16 +28,14 @@ export default function UploadImage() {
 
     // 监听 uploadId 的变化
     useEffect(() => {
-      if(uploadedFile.length > 1){
-        uploadedFile.forEach((r)=>{
-          setImgUrls([...ImgUrls,handlePreView(r)])
-        })
+      if(uploadedFileId.length > 1){
+        handlePreView(uploadedFileId)
       }
-    }, [uploadedFile]);
+    }, [uploadedFileId]);
 
   // 模拟点击选择文件按钮
   const handldWareFile = ()=>{
-    setFile(null)
+    setFile('')
     const filedom = document.getElementById('file');
     filedom?.click()
   }
@@ -58,31 +56,57 @@ export default function UploadImage() {
     }  
 
   const onDelete = (id:string) => {
-    if(uploadedFile.includes(id)){
-      setUploadedFile(uploadedFile.filter((e) => e !== id))
+    if(!uploadedFileId.includes(id)){
+      // setUploadedFileIds(upl)
     }
   }
 
   const handleUpload = async () => {
     try {
-      const formData = new FormData();      
-      formData.set('file', file);
-      const data = await uploadFile(formData)
-      setUploadedFile([...uploadedFile, data.obj.id]);
+      if(file){
+        const formData = new FormData();      
+        formData.set('file', file);
+        const data = await uploadFile(formData)
+        setUploadedFileIds([...uploadedFileId, data.obj.id]);
+      }
     } catch (error) {
       throw error
     }
   }
 
-  const handlePreView = async (id:string) =>{
+  const handlePreView = async (ids:string[]) =>{
    try {
-    const url = await getFilePreView(id)
-    return url
+    const urls = await getFilePreView(ids)
+    setImgUrls(urls)
    } catch (error) {
     throw error
    }
   }
-
+  const imgDiv = []
+  if(ImgUrls.length > 0){
+    for(let i = 0; i <= ImgUrls.length;i++){
+      const id = i
+      imgDiv.push(
+        <div key={id} style={{ position: 'relative', display: 'inline-block' }}>
+                <Image
+                width={100}
+                height={100}
+                key={id} 
+                id={String(i)}
+                alt={'uploadFile' + id}
+                src={ImgUrls[i]}
+                priority={true}
+                onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
+                />
+                {showDelete && (
+                  <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
+                    <button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</button>
+                  </div>
+                )}
+                </div>
+      )  
+    }
+  }
   return (
     <Flex direction="column">
         <input 
@@ -96,26 +120,9 @@ export default function UploadImage() {
             <PlusIcon height="100" width="100"/>
           </div>
         </button>
-        {uploadedFile.length > 0 && (
+        {uploadedFileId.length > 0 && (
           <Flex direction="row">
-            {uploadedFile.map(id => (
-              <div key={id} style={{ position: 'relative', display: 'inline-block' }}>
-              <Image
-              width={100}
-              height={100}
-              key={id} 
-              id={id}
-              alt={'uploadFile' + id}
-              src={""}
-              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
-              />
-              {showDelete && (
-                <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
-                  <button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</button>
-                </div>
-              )}
-              </div>
-            ))}
+            {imgDiv}
           </Flex>
         )}
       </Flex>

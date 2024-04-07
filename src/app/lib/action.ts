@@ -31,17 +31,18 @@ export async function doNewPost(
     try {
       
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return 'doPost failed something wrong'
     }
 }
 
 export async function uploadFile(formData: FormData) {
+  const uploadPath:any = process.env.UPLOAD_PATH
     if(!formData.get('file')){
       return null
     }
     try {
-      const res = await fetch('http://127.0.0.1:9091/file/upload',{
+      const res = await fetch(uploadPath,{
         method: 'POST',
         body: formData,
       })
@@ -58,11 +59,16 @@ export async function uploadFile(formData: FormData) {
 };
 
 
-export async function getFilePreView(id: string) {
+export async function getFilePreView(id: string[]) {
+  const perviewPath:any = process.env.PERVIEW_PATH
   try {
-    const url = "http://127.0.0.1:9091/file/preview/" + id
+    const url = perviewPath
     const res = await fetch(url,{
-      method:'post'
+      method:'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(id)
     })
     const resp = await res.json()
     

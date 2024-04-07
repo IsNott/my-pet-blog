@@ -1,0 +1,11 @@
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=password
+MYSQL_DATABASE=plog
+MYSQL_PORT=3306
+
+AUTH_SECRET=''
+AUTH_URL=http://localhost:3000/api/auth
+
+UPLOAD_PATH=http://127.0.0.1:9091/file/upload
+PERVIEW_PATH=http://127.0.0.1:9091/file/preview/
