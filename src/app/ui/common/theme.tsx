@@ -15,19 +15,18 @@ export default function ThemeButton(){
     
     const handleClick = () =>{
       dispatch(change())
-      console.log(useLight);
     }
     
     return(
       <Link href="">
         <Text onClick={handleClick}> 
-       {useLight && <SunIcon className="hidden md:block sm:block" 
-        height="18" width="18" 
-        style={{marginRight:2}} color="gray"/>}
-        {!useLight &&  <MoonIcon className="hidden md:block sm:block" 
-        height="18" width="18" 
-        style={{marginRight:2}} color="gray"/>}
-      </Text>
+          {useLight && <SunIcon className="hidden md:block sm:block" 
+          height="18" width="18" 
+          style={{marginRight:2}} color="gray"/>}
+          {!useLight &&  <MoonIcon className="hidden md:block sm:block" 
+          height="18" width="18" 
+          style={{marginRight:2}} color="gray"/>}
+        </Text>
       </Link>
     )
   }
@@ -36,9 +35,9 @@ export function ThemeElement({children}: {children: React.ReactNode}){
     const useLight = useAppSelector((state) => state.themeReducer)
     return(
       <>
-      <Theme appearance={useLight ? "light" : "dark"}>
-        {children}
-      </Theme>
+        <Theme appearance={useLight ? "light" : "dark"}>
+          {children}
+        </Theme>
       </>
     )
 }

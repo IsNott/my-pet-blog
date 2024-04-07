@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import { Button,Flex } from '@radix-ui/themes';
 import { uploadFile,getFilePreView } from '@/app/lib/action';
-import { any } from 'zod';
 import Image from 'next/image';
-import ImgBox from './img-box';
 import { useEffect } from 'react';
 import { Cross1Icon,CheckIcon } from "@radix-ui/react-icons"
 
 export default function UploadImage() {
-  const crypto = require('crypto');
   const [file, setFile] = useState('');
   const [uploadedFileId,setUploadedFileIds] = useState<string[]>([])
   const [ImgUrls,setImgUrls] = useState<string[]>([])
+  const [imgDiv,setImgDiv] = useState<any[]>([])
+  const [showDelete, setShowDelete] = useState(false);
+
   // 捕获文件添加到文件列表
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     setFile(e.target.files[0])
   }
 
-  // 监听 uploadId 的变化
+  // 监听 file 的变化
   useEffect(() => {
     if (file !== null) {
       const filedom = document.getElementById('submitUpload');
@@ -26,12 +26,20 @@ export default function UploadImage() {
     }
   }, [file]);
 
-    // 监听 uploadId 的变化
-    useEffect(() => {
-      if(uploadedFileId.length > 1){
-        handlePreView(uploadedFileId)
-      }
-    }, [uploadedFileId]);
+  // 监听 uploadedFileId 的变化
+  useEffect(() => {
+    if(uploadedFileId.length > 0){
+      handlePreView(uploadedFileId)
+      // handleImage()
+    }
+  }, [uploadedFileId]);
+
+  // 监听 uploadedFileId 的变化
+  useEffect(() => {
+    if(ImgUrls.length > 0){
+      handleImageDivShow()
+    }
+  }, [ImgUrls]);
 
   // 模拟点击选择文件按钮
   const handldWareFile = ()=>{
@@ -39,27 +47,19 @@ export default function UploadImage() {
     const filedom = document.getElementById('file');
     filedom?.click()
   }
+  const handleMouseEnter = () => {
+    setShowDelete(true);
+  };
 
-  const [showDelete, setShowDelete] = useState(false);
-    
-    const handleMouseEnter = () => {
-      setShowDelete(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setShowDelete(false);
-    };
-  
-    const handleDeleteClick = () => {
-      console.log(1);
-      // onDelete()
-    }  
+  const handleMouseLeave = () => {
+    setShowDelete(false);
+  };
 
-  const onDelete = (id:string) => {
-    if(!uploadedFileId.includes(id)){
+  const handleDeleteClick = (id:string) => {
+    if(uploadedFileId.includes(id)){
       // setUploadedFileIds(upl)
     }
-  }
+  } 
 
   const handleUpload = async () => {
     try {
@@ -74,7 +74,7 @@ export default function UploadImage() {
     }
   }
 
-  const handlePreView = async (ids:string[]) =>{
+  const handlePreView = async (ids:string[]) =>{    
    try {
     const urls = await getFilePreView(ids)
     setImgUrls(urls)
@@ -82,31 +82,39 @@ export default function UploadImage() {
     throw error
    }
   }
-  const imgDiv = []
-  if(ImgUrls.length > 0){
-    for(let i = 0; i <= ImgUrls.length;i++){
-      const id = i
-      imgDiv.push(
-        <div key={id} style={{ position: 'relative', display: 'inline-block' }}>
-                <Image
-                width={100}
-                height={100}
-                key={id} 
-                id={String(i)}
-                alt={'uploadFile' + id}
-                src={ImgUrls[i]}
-                priority={true}
-                onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
-                />
-                {showDelete && (
-                  <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
-                    <button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</button>
-                  </div>
-                )}
+
+  const handleImageDivShow = () => {
+    if(ImgUrls.length > 0){
+      const div : any[] = []
+      for(let i = 0; i <= ImgUrls.length;i++){
+        const url = ImgUrls[i]
+        const id = url
+        if(url){
+          div.push(
+            <div key={id} style={{ position: 'relative', display: 'inline-block', padding: 10 }}>
+              <Image
+              width={300}
+              height={300}
+              key={id} 
+              id={String(i)}
+              alt={'uploadFile' + id}
+              src={ImgUrls[i]}
+              quality={50}
+              onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} 
+              />
+              {showDelete && (
+                <div style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }}>
+                  <Button onClick={handleDeleteClick}>{showDelete ? <Cross1Icon/> : <CheckIcon/>}</Button>
                 </div>
-      )  
+              )}
+            </div>
+          )       
+        } 
+      }
+      setImgDiv(div)
     }
   }
+
   return (
     <Flex direction="column">
         <input 
@@ -120,7 +128,7 @@ export default function UploadImage() {
             <PlusIcon height="100" width="100"/>
           </div>
         </button>
-        {uploadedFileId.length > 0 && (
+        {imgDiv.length > 0 && (
           <Flex direction="row">
             {imgDiv}
           </Flex>

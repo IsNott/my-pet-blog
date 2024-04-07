@@ -5,6 +5,8 @@ import { Text,Container,Card,Flex,Box,Avatar,AspectRatio,Separator,Heading,Scrol
 import { ChatBubbleIcon,HeartIcon,Share2Icon,ArrowRightIcon,HeartFilledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import Link from "next/link";
+import PlogPage from "@/app/router/router";
+
 export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
   var [isLike, setIsVisible] = useState(false);  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -38,7 +40,7 @@ export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
                 </Text>
               </Box>
             </Flex>
-            <Link href={"/plog"}>
+            <Link href={PlogPage.Plog}>
             <ArrowRightIcon width="24" height="24" 
             />
             </Link>
@@ -90,7 +92,6 @@ export default function DetailCard({blog,sender} :{blog : Blog,sender:User}) {
                     </Flex>
                     <Flex gap="2" mr="2" align="center">
                       <Share2Icon height="18" width="18"/>
-                      {/* <Text>100+</Text> */}
                     </Flex>
                   </Flex>
                 </Flex>

@@ -1,41 +1,41 @@
 'use client'
 import { Box,Text,Flex} from "@radix-ui/themes"
-import { MoonIcon,GitHubLogoIcon } from "@radix-ui/react-icons"
+import { GitHubLogoIcon } from "@radix-ui/react-icons"
 import CreateForm from "./create-form"
 import Link from "next/link"
 import Search from "./search"
 import ThemeButton from "./theme"
+import PlogPage from "@/app/router/router"
 
 export default function TopNav(){
     let placeText = 'Search Plog ...'
+    const title = process.env.REACT_APP_TITLE 
     return(
         <main>
             <Box className="w-full" height="8"  position="absolute">
                 <Flex align="center" height="100%" justify="between" direction="row" >
-                        <Link href="/plog">
-                          <Text ml="5" color="gray" onClick={()=>{
-                            placeText = "Search Plog ..."
-                          }} weight="bold">
-                              Little Dog Book
+                        <Link href={PlogPage.Plog}>
+                          <Text ml="5" color="gray" weight="bold">
+                              {/* {title} */}
+                              Litter Dog Book
                           </Text>
                         </Link>
                         <Search placeholder={placeText}/>
                         <Flex align="center" mr="5" justify="between" gap="5">
                             <CreateForm/>
-                            <Link className="hidden md:block sm:block" href={"/plog/sign-board"}>
+                            <Link className="hidden md:block sm:block" href={PlogPage.SignBoard}>
                               <Text size="2" color="gray">
                                 SignBoard
                               </Text>
                             </Link>
-                            <Link className="hidden md:block sm:block"  href={"/login"}>
+                            <Link className="hidden md:block sm:block"  href={PlogPage.Login}>
                               <Text size="2" color="gray">
                                   SignIn
                               </Text>
                             </Link>
-                            {/* <MoonIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:2}} color="gray"/> */}
                             <ThemeButton/>
-                            <a href="https://github.com/IsNott">
-                            <GitHubLogoIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:20}} color="gray"/>
+                            <a href={PlogPage.NottGitHub}>
+                              <GitHubLogoIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:20}} color="gray"/>
                             </a>
                         </Flex>
                 </Flex>

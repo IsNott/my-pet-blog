@@ -4,9 +4,11 @@ import { useFormState,useFormStatus } from "react-dom"
 import { doNewPost } from "@/app/lib/action"
 import Link from "next/link"
 import UploadImage from "./upload-form"
+import { useState } from "react"
+
 export default function CreateForm() {
     const [errorMessage, dispatch] = useFormState(doNewPost, undefined);
-    
+    const [imgIds,setImgIds] = useState<Array<string>>([])
     return(
         <AlertDialog.Root>
             {/* 发布按钮 */}
@@ -28,26 +30,24 @@ export default function CreateForm() {
                 <form action={dispatch}>
                     <Card>
                         <Flex direction="column" gap="3">
+                            <input style={{display: 'none'}} name='senderId' defaultValue={'1'}></input>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Title</Strong></Text>
                                 <Separator size="4"/>
-                                <TextField.Input placeholder="Search the docs…">
-                                  {/* <TextField.Slot>
-                                    <MagnifyingGlassIcon height="16" width="16" />
-                                  </TextField.Slot> */}
+                                <TextField.Input name="title" defaultValue={''} placeholder="Type something…">
                                 </TextField.Input>
-                                {/* <input className="Input" type="text" id="firstName" placeholder="Type something" /> */}
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Context</Strong></Text>
                                 <Box style={{width:"300"}}>
-                                    <TextArea size="2" placeholder="Type something…" />
+                                    <TextArea name="context" size="2" defaultValue={''} placeholder="Type something…" />
                                 </Box>
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Images</Strong></Text>
                                 <UploadImage/>
                             </Flex>
+                            <input style={{display:'none'}} name="imgs" value={imgIds}></input>
                         </Flex>
                     </Card>
                 </form>
@@ -69,7 +69,7 @@ export default function CreateForm() {
 function SendButton(){
     const { pending } = useFormStatus();
     return (
-      <Button color="blue" aria-disabled={pending}>
+      <Button type="submit" color="blue" aria-disabled={pending}>
         Send
       </Button>
     );

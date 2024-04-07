@@ -1,5 +1,7 @@
 import { Card,Flex,Avatar,Text,Container,Box,Link,AspectRatio,Separator,Skeleton} from "@radix-ui/themes"
 import { ChatBubbleIcon,HeartIcon,ArrowRightIcon } from "@radix-ui/react-icons"
+import PlogPage from "@/app/router/router"
+
 export function IndexCardSkeleton(){
   return(
     <>
@@ -86,10 +88,9 @@ export function DetailCardSkeleton(){
                 </Skeleton>
               </Box>
             </Flex>
-            <Link href={"/plog"}>
-            <ArrowRightIcon width="24" height="24" />
+            <Link href={PlogPage.Plog}>
+              <ArrowRightIcon width="24" height="24" />
             </Link>
-    
             </Flex>
             <Flex direction="row" gap="2">
                 <Skeleton>
