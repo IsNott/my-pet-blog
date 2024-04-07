@@ -30,7 +30,7 @@ export default function UploadImage() {
   useEffect(() => {
     if(uploadedFileId.length > 0){
       handlePreView(uploadedFileId)
-      // handleImage()
+      localStorage.setItem("plog.imges",JSON.stringify(uploadedFileId))
     }
   }, [uploadedFileId]);
 
