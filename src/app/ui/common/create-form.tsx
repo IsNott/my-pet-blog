@@ -5,36 +5,56 @@ import { doNewPost } from "@/app/lib/action"
 import Link from "next/link"
 import UploadImage from "./upload-form"
 import { useEffect, useState } from "react"
+import { parseLocalStorgeObj } from '@/app/lib/utils'
 
 type Plog = {
   senderId: string | null,
   title: string | null,
   context: string | null,
-  imgs: string | null
+  imgs: string[] | null
+}
+
+const defObj : Plog = {
+    senderId: '',
+    title:'',
+    context:'',
+    imgs: []
 }
 
 export default function CreateForm() {
+    const ISSERVER = typeof window === "undefined";
     const [errorMessage, dispatch] = useFormState(doNewPost, undefined);
-    const [plog,setPlog] = useState<Plog>({
-      senderId: localStorage.getItem('plog.senderId'),
-      title: localStorage.getItem('plog.title'),
-      context: localStorage.getItem('plog.context'),
-      imgs: localStorage.getItem('plog.imges')
-    })
+    const [plog,setPlog] = useState<Plog>({...defObj})
+    const [loding,setLoding] = useState(false)
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPlog(prev => ({
         ...prev,
         [e.target.name] : e.target.value
       }))
     }
 
+    useEffect(()=>{
+        setLoding(true)
+        setPlog(() : Plog =>{
+            for (const key in defObj) {
+                if (Object.prototype.hasOwnProperty.call(defObj, key)) {
+                    // 使用键（key）来给对象赋值
+                    defObj[key] = parseLocalStorgeObj(ISSERVER,`plog.${key}`,true,null);
+                }
+            }
+            return defObj
+        })
+        setLoding(false)
+    },[])
+
     const handleCancel = () => {
       Object.keys(plog).forEach(key => {
-        const value = plog[key];
-        // 检查值是否为 null 或 undefined，如果不是，则存储到 LocalStorage 中
+        // 声明key为plog属性的类型
+        const typedKey = key as keyof typeof plog;
+        const value = plog[typedKey];
         if (value !== null && value !== undefined) {
-          localStorage.setItem('plog.'+ key, value);
+            localStorage.setItem('plog.'+ key, JSON.stringify(value));
         }
       })
     }
@@ -60,37 +80,37 @@ export default function CreateForm() {
                 <form action={dispatch}>
                     <Card>
                         <Flex direction="column" gap="3">
-                            <input style={{display: 'none'}} name='senderId'  onChange={handleChange} value={plog.senderId ? plog.senderId : ''}></input>
+                            <input style={{display: 'none'}} name='senderId' onChange={handleChange} value={plog.senderId || ''}></input>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Title</Strong></Text>
                                 <Separator size="4"/>
-                                <TextField.Input name="title" onChange={handleChange} value={plog.title ? plog.title : ''} placeholder="Type something…">
+                                <TextField.Input name="title" onChange={handleChange} value={plog.title || ''} placeholder="Type something…">
                                 </TextField.Input>
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Context</Strong></Text>
                                 <Box style={{width:"300"}}>
-                                    <TextArea name="context" size="2"  onChange={handleChange} value={plog.context ? plog.context : ''} placeholder="Type something…" />
+                                  <TextArea name="context" size="2"  onChange={handleChange} value={plog.context || ''} placeholder="Type something…" />
                                 </Box>
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Images</Strong></Text>
-                                <UploadImage/>
+                                    <UploadImage preImgs={plog.imgs}/>
                             </Flex>
-                            <input style={{display:'none'}} name="imgs" value={plog.imgs ? plog.imgs : ''}></input>
+                            <input style={{display:'none'}} name="imgs" value={plog.imgs || ''}></input>
                         </Flex>
                     </Card>
                 </form>
-            <Flex mt="3" gap="3" justify="end">
-                <AlertDialog.Cancel onClick={handleCancel}>
-                    <Button variant="soft" color="gray">
-                        Cancel
-                    </Button>
-                </AlertDialog.Cancel>
-                <AlertDialog.Action>
-                    <SendButton/>
-                </AlertDialog.Action>
-            </Flex>
+                <Flex mt="3" gap="3" justify="end">
+                    <AlertDialog.Cancel onClick={handleCancel}>
+                        <Button variant="soft" color="gray">
+                            Cancel
+                        </Button>
+                    </AlertDialog.Cancel>
+                    <AlertDialog.Action>
+                        <SendButton/>
+                    </AlertDialog.Action>
+                </Flex>
             </AlertDialog.Content>
         </AlertDialog.Root>
     )

@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { Cross1Icon,CheckIcon } from "@radix-ui/react-icons"
 
-export default function UploadImage() {
+
+export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
   const [file, setFile] = useState('');
   const [uploadedFileId,setUploadedFileIds] = useState<string[]>([])
   const [ImgUrls,setImgUrls] = useState<string[]>([])
@@ -17,6 +18,10 @@ export default function UploadImage() {
   const handleFileChange = (e:any) => {
     setFile(e.target.files[0])
   }
+
+  useEffect(() => {
+    setUploadedFileIds(preImgs || [])
+  },[])
 
   // 监听 file 的变化
   useEffect(() => {
@@ -30,7 +35,7 @@ export default function UploadImage() {
   useEffect(() => {
     if(uploadedFileId.length > 0){
       handlePreView(uploadedFileId)
-      localStorage.setItem("plog.imges",JSON.stringify(uploadedFileId))
+      localStorage.setItem("plog.imgs",JSON.stringify(uploadedFileId))
     }
   }, [uploadedFileId]);
 

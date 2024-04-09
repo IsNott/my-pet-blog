@@ -1,12 +1,13 @@
 const mysql2 = require('mysql2')
 const dotenv = require('dotenv')
+const bcrypt = require('bcrypt');
+const { exit } = require('process');
+
 dotenv.config()
 const {
   plogs,
   users
 } = require('../lib/placeholder-data');
-const bcrypt = require('bcrypt');
-const { exit } = require('process');
 
 async function seedUsers(pool) {
   try {

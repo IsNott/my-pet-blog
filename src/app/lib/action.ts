@@ -29,6 +29,7 @@ export async function doNewPost(
   formData: FormData
   ){
     try {
+      console.log('rec data',formData);
       
     } catch (error) {
       console.error(error);
@@ -49,7 +50,7 @@ export async function uploadFile(formData: FormData) {
       const resp = await res.json()
       // return resp
       if(resp.code !== 200){
-        throw new Error(resp.message? resp.message: 'fetch upload file failed')
+        throw new Error(resp.msg ||  'fetch upload file failed')
       }else{
         return resp
       }
@@ -73,7 +74,7 @@ export async function getFilePreView(id: string[]) {
     const resp = await res.json()
     
     if(resp.code !== 200){
-      throw new Error('fetch upload file failed')
+      throw new Error(resp.msg || 'fetch upload file failed')
     }else{
       return resp.obj
     }
