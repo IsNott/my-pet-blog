@@ -5,6 +5,25 @@ import { z } from 'zod';
 import pool from "@/app/public/db";
 import { error } from 'console';
 
+const PlogFormSchema = z.object({
+  senderId: z.string(),
+  title: z.string().min(6),
+  context: z.string().min(6),
+  imgs: z.string()
+})
+
+export type State = {
+  errors?: {
+    senderId?: string[];
+    title?: string[];
+    context?: string[];
+    imgs?: string[];
+  };
+  message?: string | null;
+};
+
+const CreatPlog = PlogFormSchema.omit({senderId:true})
+
 // 登录
 export async function authenticate(
     pervState: string | undefined,
@@ -25,15 +44,30 @@ export async function authenticate(
   }
 
 export async function doNewPost(
-  pervState: string | undefined,
+  pervState: State,
   formData: FormData
   ){
     try {
       console.log('rec data',formData);
-      
+      const validateFields = CreatPlog.safeParse({
+        senderId: formData.get('sendId'),
+        title: formData.get('title'),
+        context: formData.get('context'),
+        imgs: formData.get('imgs')
+      })
+      if (!validateFields.success) {
+        return {
+          errors: validateFields.error.flatten().fieldErrors,
+          message: 'Missing Fields. Failed to Create Plog.',
+        };
+      }
+      console.log('new post finish');
+      return pervState
     } catch (error) {
       console.error(error);
-      return 'doPost failed something wrong'
+      return {
+        message: 'doPost failed something wrong'
+      }
     }
 }
 

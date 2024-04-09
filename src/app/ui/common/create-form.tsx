@@ -22,8 +22,9 @@ const defObj : Plog = {
 }
 
 export default function CreateForm() {
+    const initialState = { message: null,erros:{}}
     const ISSERVER = typeof window === "undefined";
-    const [errorMessage, dispatch] = useFormState(doNewPost, undefined);
+    const [state, dispatch] = useFormState(doNewPost, initialState);
     const [plog,setPlog] = useState<Plog>({...defObj})
     const [loding,setLoding] = useState(false)
 
@@ -84,23 +85,62 @@ export default function CreateForm() {
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Title</Strong></Text>
                                 <Separator size="4"/>
-                                <TextField.Input name="title" onChange={handleChange} value={plog.title || ''} placeholder="Type something…">
+                                <TextField.Input name="title" 
+                                    aria-describedby="title-error"
+                                    onChange={handleChange} 
+                                    value={plog.title || ''} 
+                                    placeholder="Type something…">
                                 </TextField.Input>
+                                <div id='title-error'>
+                                    {state.errors?.title &&
+                                        state.errors?.title.map((error: string) => (
+                                            <p className="mt-2 text-sm text-red-500" key={error}>
+                                            {error}
+                                            </p>
+                                        ))}
+                                </div>
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Context</Strong></Text>
                                 <Box style={{width:"300"}}>
-                                  <TextArea name="context" size="2"  onChange={handleChange} value={plog.context || ''} placeholder="Type something…" />
+                                  <TextArea name="context" size="2"
+                                  aria-describedby="context-error"
+                                  onChange={handleChange} 
+                                  value={plog.context || ''} 
+                                  placeholder="Type something…" />
                                 </Box>
+                                <div id='context-error'>
+                                    {state.errors?.context &&
+                                        state.errors?.context.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                                 ))}
+                                </div>
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Images</Strong></Text>
                                     <UploadImage preImgs={plog.imgs}/>
                             </Flex>
-                            <input style={{display:'none'}} name="imgs" value={plog.imgs || ''}></input>
+                            <input 
+                            style={{display:'none'}} 
+                            name="imgs" 
+                            aria-describedby="imgs-error"
+                            value={plog.imgs || ''}>
+                            </input>
                         </Flex>
+                        <div id='imgs-error'>
+                            {state.errors?.imgs &&
+                                state.errors?.imgs.map((error: string) => (
+                                    <p className="mt-2 text-sm text-red-500" key={error}>
+                                    {error}
+                                    </p>
+                                ))}
+                        </div>
                     </Card>
+                    
                 </form>
+               
                 <Flex mt="3" gap="3" justify="end">
                     <AlertDialog.Cancel onClick={handleCancel}>
                         <Button variant="soft" color="gray">
