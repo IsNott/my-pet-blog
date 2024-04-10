@@ -5,9 +5,12 @@ import { uploadFile,getFilePreView } from '@/app/lib/action';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { Cross1Icon,CheckIcon } from "@radix-ui/react-icons"
-
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from "@/redux/store";
+import { setImgs } from '@/redux/features/plog-img-slice';
 
 export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
+  const dispatch = useDispatch<AppDispatch>()
   const [file, setFile] = useState('');
   const [uploadedFileId,setUploadedFileIds] = useState<string[]>([])
   const [ImgUrls,setImgUrls] = useState<string[]>([])
@@ -19,8 +22,11 @@ export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
     setFile(e.target.files[0])
   }
 
-  useEffect(() => {
-    setUploadedFileIds(preImgs || [])
+  useEffect(()=>{
+    console.log('pre',preImgs);
+    if(preImgs && preImgs.length > 0){
+      setUploadedFileIds(preImgs)
+    }
   },[])
 
   // 监听 file 的变化
@@ -34,8 +40,8 @@ export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
   // 监听 uploadedFileId 的变化
   useEffect(() => {
     if(uploadedFileId.length > 0){
+      dispatch(setImgs(uploadedFileId))
       handlePreView(uploadedFileId)
-      localStorage.setItem("plog.imgs",JSON.stringify(uploadedFileId))
     }
   }, [uploadedFileId]);
 
@@ -62,7 +68,6 @@ export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
 
   const handleDeleteClick = (id:string) => {
     if(uploadedFileId.includes(id)){
-      // setUploadedFileIds(upl)
     }
   } 
 
@@ -71,8 +76,8 @@ export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
       if(file){
         const formData = new FormData();      
         formData.set('file', file);
-        const data = await uploadFile(formData)
-        setUploadedFileIds([...uploadedFileId, data.obj.id]);
+        const data = await uploadFile(formData)        
+        setUploadedFileIds([...uploadedFileId,data.obj.id]);
       }
     } catch (error) {
       throw error
@@ -81,6 +86,8 @@ export default function UploadImage({preImgs} : {preImgs:string[] | null}) {
 
   const handlePreView = async (ids:string[]) =>{    
    try {
+    console.log(ids);
+    
     const urls = await getFilePreView(ids)
     setImgUrls(urls)
    } catch (error) {

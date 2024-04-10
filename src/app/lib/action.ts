@@ -2,14 +2,12 @@
 import { signIn } from '../../../auth';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
-import pool from "@/app/public/db";
-import { error } from 'console';
 
 const PlogFormSchema = z.object({
   senderId: z.string(),
-  title: z.string().min(6),
-  context: z.string().min(6),
-  imgs: z.string()
+  title: z.string().min(6,{message: 'Please enter title over 6 word.'}),
+  context: z.string().min(6,{ message: 'Please enter Context.' }),
+  imgs: z.string().min(32,{message: 'Please upload last 1 picture.'})
 })
 
 export type State = {
@@ -22,7 +20,7 @@ export type State = {
   message?: string | null;
 };
 
-const CreatPlog = PlogFormSchema.omit({senderId:true})
+const CreatPlog = PlogFormSchema.omit({})
 
 // 登录
 export async function authenticate(
@@ -48,23 +46,25 @@ export async function doNewPost(
   formData: FormData
   ){
     try {
-      console.log('rec data',formData);
       const validateFields = CreatPlog.safeParse({
-        senderId: formData.get('sendId'),
+        senderId: formData.get('senderId'),
         title: formData.get('title'),
         context: formData.get('context'),
         imgs: formData.get('imgs')
       })
+      console.log(validateFields);
+      
       if (!validateFields.success) {
         return {
           errors: validateFields.error.flatten().fieldErrors,
           message: 'Missing Fields. Failed to Create Plog.',
         };
       }
-      console.log('new post finish');
-      return pervState
+      return {
+          errors:{},
+          message: '',
+      }
     } catch (error) {
-      console.error(error);
       return {
         message: 'doPost failed something wrong'
       }
@@ -95,6 +95,8 @@ export async function uploadFile(formData: FormData) {
 
 
 export async function getFilePreView(id: string[]) {
+  console.log('didd',id);
+  
   const perviewPath:any = process.env.PERVIEW_PATH
   try {
     const url = perviewPath

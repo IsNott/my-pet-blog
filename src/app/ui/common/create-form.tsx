@@ -6,6 +6,8 @@ import Link from "next/link"
 import UploadImage from "./upload-form"
 import { useEffect, useState } from "react"
 import { parseLocalStorgeObj } from '@/app/lib/utils'
+import { useAppSelector } from "@/redux/store";
+import { useCallback } from "react"
 
 type Plog = {
   senderId: string | null,
@@ -22,12 +24,12 @@ const defObj : Plog = {
 }
 
 export default function CreateForm() {
+    const [curImgIds,setCurImgIds] = useState<string[]>([])
+    const imgs = useAppSelector((state) => state.plogImgReducer)
     const initialState = { message: null,erros:{}}
     const ISSERVER = typeof window === "undefined";
     const [state, dispatch] = useFormState(doNewPost, initialState);
     const [plog,setPlog] = useState<Plog>({...defObj})
-    const [loding,setLoding] = useState(false)
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPlog(prev => ({
         ...prev,
@@ -35,19 +37,28 @@ export default function CreateForm() {
       }))
     }
 
+
     useEffect(()=>{
-        setLoding(true)
         setPlog(() : Plog =>{
             for (const key in defObj) {
                 if (Object.prototype.hasOwnProperty.call(defObj, key)) {
-                    // 使用键（key）来给对象赋值
-                    defObj[key] = parseLocalStorgeObj(ISSERVER,`plog.${key}`,true,null);
+                    if(key != 'imgs'){
+                        // 使用键（key）来给对象赋值
+                      defObj[key] = parseLocalStorgeObj(ISSERVER,`plog.${key}`,true,null);
+                    }
                 }
             }
             return defObj
         })
-        setLoding(false)
     },[])
+
+    const handleClick = () => {
+        console.log('1111');
+        
+      if(imgs){
+        setCurImgIds(imgs)
+      }
+    }
 
     const handleCancel = () => {
       Object.keys(plog).forEach(key => {
@@ -81,7 +92,7 @@ export default function CreateForm() {
                 <form action={dispatch}>
                     <Card>
                         <Flex direction="column" gap="3">
-                            <input style={{display: 'none'}} name='senderId' onChange={handleChange} value={plog.senderId || ''}></input>
+                            <input style={{display: 'none'}} name='senderId' onChange={handleChange} defaultValue={plog.senderId || ''}></input>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Title</Strong></Text>
                                 <Separator size="4"/>
@@ -106,7 +117,7 @@ export default function CreateForm() {
                                   <TextArea name="context" size="2"
                                   aria-describedby="context-error"
                                   onChange={handleChange} 
-                                  value={plog.context || ''} 
+                                  defaultValue={plog.context || ''} 
                                   placeholder="Type something…" />
                                 </Box>
                                 <div id='context-error'>
@@ -120,13 +131,13 @@ export default function CreateForm() {
                             </Flex>
                             <Flex direction="column" gap="3">
                                 <Text><Strong>Images</Strong></Text>
-                                    <UploadImage preImgs={plog.imgs}/>
+                                <UploadImage preImgs={curImgIds}/>
                             </Flex>
                             <input 
-                            style={{display:'none'}} 
-                            name="imgs" 
-                            aria-describedby="imgs-error"
-                            value={plog.imgs || ''}>
+                                style={{display:'none'}} 
+                                name="imgs" 
+                                aria-describedby="imgs-error"
+                                value={curImgIds || ['']}>
                             </input>
                         </Flex>
                         <div id='imgs-error'>
@@ -138,28 +149,27 @@ export default function CreateForm() {
                                 ))}
                         </div>
                     </Card>
-                    
-                </form>
-               
-                <Flex mt="3" gap="3" justify="end">
+                    <Flex mt="3" gap="3" justify="end">
                     <AlertDialog.Cancel onClick={handleCancel}>
                         <Button variant="soft" color="gray">
                             Cancel
                         </Button>
                     </AlertDialog.Cancel>
                     <AlertDialog.Action>
-                        <SendButton/>
+                      <SendButton handleClick={handleClick}/>
                     </AlertDialog.Action>
                 </Flex>
+                </form>
+              
             </AlertDialog.Content>
         </AlertDialog.Root>
     )
 }
 
-function SendButton(){
+function SendButton({handleClick}: {handleClick : any}){
     const { pending } = useFormStatus();
     return (
-      <Button type="submit" color="blue" aria-disabled={pending}>
+      <Button id='submitBtn' type="submit" onClick={handleClick} color="blue" aria-disabled={pending}>
         Send
       </Button>
     );

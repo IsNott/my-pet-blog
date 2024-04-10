@@ -6,6 +6,7 @@ import Link from "next/link"
 import Search from "./search"
 import ThemeButton from "./theme"
 import PlogPage from "@/app/router/router"
+import { randomUUID } from "crypto"
 
 export default function TopNav(){
     let placeText = 'Search Plog ...'
@@ -22,7 +23,8 @@ export default function TopNav(){
                         </Link>
                         <Search placeholder={placeText}/>
                         <Flex align="center" mr="5" justify="between" gap="5">
-                            <CreateForm/>
+                            {/* 创建post */}
+                            <CreateForm />
                             <Link className="hidden md:block sm:block" href={PlogPage.SignBoard}>
                               <Text size="2" color="gray">
                                 SignBoard
@@ -33,6 +35,7 @@ export default function TopNav(){
                                   SignIn
                               </Text>
                             </Link>
+                            {/* 修改主题按钮 */}
                             <ThemeButton/>
                             <a href={PlogPage.NottGitHub}>
                               <GitHubLogoIcon className="hidden md:block sm:block" height="18" width="18" style={{marginRight:20}} color="gray"/>

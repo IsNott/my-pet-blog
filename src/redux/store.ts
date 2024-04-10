@@ -2,6 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from './features/theme-slice'
 import plogPageReducer from "./features/page-slice";
+import plogImgReducer from './features/plog-img-slice'
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -9,7 +10,8 @@ export const store = configureStore({
   // 对状态进行变更后返回
   reducer:{
     themeReducer,
-    plogPageReducer
+    plogPageReducer,
+    plogImgReducer
   }
 })
 
