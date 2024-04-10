@@ -1,18 +1,16 @@
-import {createSlice,PayloadAction} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-
-const initialState = false
+const initialState = false;
 
 export const theme = createSlice({
-  name:"theme",
+  name: "theme",
   initialState,
-  reducers:{
+  reducers: {
     change: (state) => {
-      return state === initialState ? !initialState : initialState
-    }
-  }
-})
+      return state === initialState ? !initialState : initialState;
+    },
+  },
+});
 
-export const { change } = theme.actions
-export default theme.reducer
+export const { change } = theme.actions;
+export default theme.reducer;

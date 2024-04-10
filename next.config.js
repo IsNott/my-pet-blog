@@ -1,24 +1,24 @@
 /** @type {import('next').NextConfig} */
-dotenv = require('dotenv')
+dotenv = require("dotenv");
 const nextConfig = {};
 module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '127.0.0.1',
+        protocol: "http",
+        hostname: "127.0.0.1",
         // port: '',
         // pathname: '/account123/**',
       },
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: "http",
+        hostname: "localhost",
         // port: '',
         // pathname: '/account123/**',
-      }
+      },
     ],
   },
-}
+};
 // 连接mysql 确保dotenv被加载
-dotenv.config()
+dotenv.config();
 // export default nextConfig;

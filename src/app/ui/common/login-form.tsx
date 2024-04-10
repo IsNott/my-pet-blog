@@ -1,18 +1,23 @@
-'use client'
-import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from "@/app/lib/action"
-import { Button } from '@radix-ui/themes';
-import { EnvelopeClosedIcon ,KeyboardIcon,LinkBreak1Icon,ArrowRightIcon} from '@radix-ui/react-icons';
-
+"use client";
+import { useFormState, useFormStatus } from "react-dom";
+import { authenticate } from "@/app/lib/action";
+import { Button } from "@radix-ui/themes";
+import {
+  EnvelopeClosedIcon,
+  KeyboardIcon,
+  LinkBreak1Icon,
+  ArrowRightIcon,
+} from "@radix-ui/react-icons";
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
   return (
     <form action={dispatch} className="space-y-3">
-      <div style={{background:"rgb(25 27 28)"}} className="flex-1 rounded-lg px-6 pb-4 pt-8">
-        <h1 className={`mb-3 text-2xl`}>
-          Login
-        </h1>
+      <div
+        style={{ background: "rgb(25 27 28)" }}
+        className="flex-1 rounded-lg px-6 pb-4 pt-8"
+      >
+        <h1 className={`mb-3 text-2xl`}>Login</h1>
         <div className="w-full ">
           <div>
             <label

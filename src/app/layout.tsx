@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeElement } from "./ui/common/theme";
 import "./globals.css";
-import "@radix-ui/themes/styles.css"
+import "@radix-ui/themes/styles.css";
 import ReduxProvider from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,8 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <ReduxProvider><ThemeElement>{children}</ThemeElement></ReduxProvider>
-        
+        <ReduxProvider>
+          <ThemeElement>{children}</ThemeElement>
+        </ReduxProvider>
       </body>
     </html>
   );
