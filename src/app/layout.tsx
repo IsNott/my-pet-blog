@@ -4,7 +4,7 @@ import { ThemeElement } from "./ui/common/theme";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import ReduxProvider from "@/redux/provider";
-
+import { SessionProvider } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <ReduxProvider>
-          <ThemeElement>{children}</ThemeElement>
-        </ReduxProvider>
+        <SessionProvider>
+          <ReduxProvider>
+            <ThemeElement>{children}</ThemeElement>
+          </ReduxProvider>
+        </SessionProvider>
       </body>
     </html>
   );

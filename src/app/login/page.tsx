@@ -14,6 +14,7 @@ export default function LoginPage() {
           </div>
         </div>
         <LoginForm />
+        <h3>don't have accout yet? Check to Signup</h3>
       </div>
     </main>
   );

@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./features/theme-slice";
 import plogPageReducer from "./features/page-slice";
 import plogImgReducer from "./features/plog-img-slice";
+import authReducer from "./features/auth-slice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     themeReducer,
     plogPageReducer,
     plogImgReducer,
+    authReducer,
   },
 });
 

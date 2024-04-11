@@ -6,9 +6,14 @@ import Link from "next/link";
 import Search from "./search";
 import ThemeButton from "./theme";
 import PlogPage from "@/app/router/router";
-import { randomUUID } from "crypto";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 export default function TopNav() {
+  const { data }: { data: any } = useSession();
+  console.log("data:", data);
+
+  const token = data?.token;
   let placeText = "Search Plog ...";
   const title = process.env.REACT_APP_TITLE;
   return (
@@ -24,7 +29,7 @@ export default function TopNav() {
           <Search placeholder={placeText} />
           <Flex align="center" mr="5" justify="between" gap="5">
             {/* 创建post */}
-            <CreateForm userId="1" />
+            {token && <CreateForm userId={token.sub} />}
             <Link
               className="hidden md:block sm:block"
               href={PlogPage.SignBoard}

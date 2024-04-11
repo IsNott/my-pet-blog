@@ -54,3 +54,26 @@ export type Condition = {
   field: string;
   expression: Expression;
 };
+
+export type State = {
+  errors?: {
+    senderId?: string[];
+    title?: string[];
+    context?: string[];
+    imgs?: string[];
+    create?: string;
+  };
+  success?: boolean;
+  message?: string | null;
+};
+
+export type AuthUser = {
+  username: string;
+  uid: string;
+};
+
+export type LoginState = {
+  success: boolean;
+  errorMsg: string | null;
+  user: AuthUser | null;
+};

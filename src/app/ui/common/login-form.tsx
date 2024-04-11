@@ -1,16 +1,28 @@
 "use client";
 import { useFormState, useFormStatus } from "react-dom";
-import { authenticate } from "@/app/lib/action";
+import { LoginState, authenticate } from "@/app/lib/action";
 import { Button } from "@radix-ui/themes";
+import storgeAuth from "../auth/storgeAuth";
 import {
   EnvelopeClosedIcon,
   KeyboardIcon,
   LinkBreak1Icon,
   ArrowRightIcon,
 } from "@radix-ui/react-icons";
+import { useEffect } from "react";
+
+const initState = {
+  errorMsg: "",
+  success: false,
+  user: {
+    username: "",
+    uid: "",
+  },
+} as LoginState;
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [state, dispatch] = useFormState(authenticate, initState);
+
   return (
     <form action={dispatch} className="space-y-3">
       <div
@@ -65,10 +77,10 @@ export default function LoginForm() {
           aria-live="polite"
           aria-atomic="true"
         >
-          {errorMessage && (
+          {!state.success && state.errorMsg && (
             <>
               <LinkBreak1Icon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="text-sm text-red-500">{state.errorMsg}</p>
             </>
           )}
         </div>

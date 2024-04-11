@@ -5,8 +5,8 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import pool from "../public/db";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { User } from "./dataDefinition";
+import { LoginState, State } from "./dataDefinition";
 
 const PlogFormSchema = z.object({
   senderId: z.string(),
@@ -15,42 +15,48 @@ const PlogFormSchema = z.object({
   imgs: z.string().min(32, { message: "Please upload last 1 picture." }),
 });
 
-export type State = {
-  errors?: {
-    senderId?: string[];
-    title?: string[];
-    context?: string[];
-    imgs?: string[];
-    create?: string;
-  };
-  success?: boolean;
-  message?: string | null;
-};
-
 const CreatPlog = PlogFormSchema.omit({});
 
 // 登录
 export async function authenticate(
-  pervState: string | undefined,
+  pervState: LoginState | undefined,
   formData: FormData,
-) {
+): Promise<LoginState> {
   try {
-    // formData.set('redirectTo',"/plog")
-    await signIn("credentials", formData);
+    const user: User = await signIn("credentials", formData);
+    return {
+      success: true,
+      errorMsg: null,
+      user: {
+        username: user?.name,
+        uid: user?.id,
+      },
+    };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          return {
+            errorMsg: "Invalid credentials.",
+            success: false,
+            user: null,
+          };
         default:
-          return "Something went wrong.";
+          return {
+            errorMsg: "Something went wrong.",
+            success: false,
+            user: null,
+          };
       }
     }
     throw error;
   }
 }
 
-export async function doNewPost(pervState: State, formData: FormData) {
+export async function doNewPost(
+  pervState: State,
+  formData: FormData,
+): Promise<State> {
   try {
     const validateFields = CreatPlog.safeParse({
       senderId: formData.get("senderId"),

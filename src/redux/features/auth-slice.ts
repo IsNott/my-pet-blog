@@ -24,9 +24,19 @@ export const auth = createSlice({
   // 初始状态
   initialState,
   reducers: {
-    // 登出函数
+    logIn: (state, action: PayloadAction<InitialState>) => {
+      const logInName = action.payload?.value.username;
+      const uid = action.payload?.value.uid;
+      initialState.value.uid = uid;
+      initialState.value.username = logInName;
+      initialState.value.isAuth = true;
+      return initialState;
+    },
     logOut: () => {
       return initialState;
     },
   },
 });
+
+export const { logIn, logOut } = auth.actions;
+export default auth.reducer;
