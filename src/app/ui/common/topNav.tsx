@@ -13,7 +13,7 @@ export default function TopNav() {
   const { data }: { data: any } = useSession();
   console.log("data:", data);
 
-  const token = data?.token;
+  const token = data?.session;
   let placeText = "Search Plog ...";
   const title = process.env.REACT_APP_TITLE;
   return (
