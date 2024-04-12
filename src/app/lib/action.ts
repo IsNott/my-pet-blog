@@ -82,7 +82,7 @@ export async function doNewPost(
       success: true,
     };
   } catch (error) {
-    console.log("create new post error:", error);
+    console.error("create new post error:", error);
     return {
       errors: { create: "create error" },
       message: "doPost failed something wrong",

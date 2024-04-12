@@ -103,13 +103,13 @@ export default function CreateForm({ userId }: { userId: string }) {
       {/* 发布按钮 */}
       <AlertDialog.Trigger>
         <Link href="">
-          <Text size="2">New Post</Text>
+          <Text size="4">New Post</Text>
         </Link>
       </AlertDialog.Trigger>
       {/* 正文 */}
       <AlertDialog.Content style={{ maxWidth: "500px" }}>
         {/* 标题 */}
-        <AlertDialog.Title>New Post</AlertDialog.Title>
+        <AlertDialog.Title size="2">New Post</AlertDialog.Title>
         <AlertDialog.Description size="2">
           What's your mood?
         </AlertDialog.Description>

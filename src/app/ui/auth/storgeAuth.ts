@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { logIn, logOut } from "@/redux/features/auth-slice";
 
 export default function storgeAuth(username: string, id: string) {
-  console.log("user", username, id);
+  // console.log("user", username, id);
 
   const dispatch = useDispatch<AppDispatch>();
   const data = {

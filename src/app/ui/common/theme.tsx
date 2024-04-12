@@ -21,18 +21,18 @@ export default function ThemeButton() {
         {useLight && (
           <SunIcon
             className="hidden md:block sm:block"
-            height="18"
-            width="18"
-            style={{ marginRight: 2 }}
+            height="28"
+            width="28"
+            style={{ marginRight: 4 }}
             color="gray"
           />
         )}
         {!useLight && (
           <MoonIcon
             className="hidden md:block sm:block"
-            height="18"
-            width="18"
-            style={{ marginRight: 2 }}
+            height="28"
+            width="28"
+            style={{ marginRight: 4 }}
             color="gray"
           />
         )}

@@ -22,7 +22,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   return (
     <TextField.Root>
       <TextField.Input
-        size="2"
+        size="3"
         radius="small"
         placeholder={placeholder}
         onChange={(e) => handleSearch(e.target.value)}

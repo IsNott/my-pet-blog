@@ -9,6 +9,7 @@ import {
   AspectRatio,
   Separator,
   Skeleton,
+  Grid,
 } from "@radix-ui/themes";
 import {
   ChatBubbleIcon,
@@ -20,16 +21,22 @@ import PlogPage from "@/app/router/router";
 export function IndexCardSkeleton() {
   return (
     <>
-      <Flex pb="4" gap="4" direction="row">
+      <Grid columns="7" gap="3" width="auto">
         <CardSkeleton />
         <CardSkeleton />
         <CardSkeleton />
-      </Flex>
-      <Flex pb="4" gap="4" direction="row">
         <CardSkeleton />
         <CardSkeleton />
         <CardSkeleton />
-      </Flex>
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </Grid>
     </>
   );
 }

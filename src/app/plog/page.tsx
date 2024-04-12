@@ -14,7 +14,7 @@ export default function Home({
   return (
     <main className="flex-wrap flex min-h-screen flex-col items-center justify-between p-24">
       {/* // <main> */}
-      <Container size="4">
+      <Container size="5">
         <Suspense fallback={<IndexCardSkeleton />}>
           <CardWarpper
             size={searchParams?.size}

@@ -26,8 +26,6 @@ function parseLocalStorgeObj(
 }
 
 function storageObj(isServer: boolean, key: string, obj: any): void {
-  console.log("stoage", isServer, key, obj);
-
   if (!isServer) {
     localStorage.setItem(key, JSON.stringify(obj));
   }

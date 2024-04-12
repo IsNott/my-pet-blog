@@ -1,5 +1,5 @@
 import { fecthRandomBlog, fecthBlogCount } from "@/app/api/blog/data";
-import { Flex, Card, Avatar, Text, Badge, Strong } from "@radix-ui/themes";
+import { Flex, Card, Avatar, Text, Badge, Strong, Box } from "@radix-ui/themes";
 import {
   CardStackIcon,
   ChatBubbleIcon,
@@ -14,10 +14,10 @@ import { getTotalPage } from "@/app/lib/utils";
 import Pagination from "@/app/ui/common/pagination";
 import React, { Suspense } from "react";
 import { CardSkeleton } from "./skeletons";
-// import dynamic from "next/dynamic";
 import PlogPage from "@/app/router/router";
+import { Grid } from "@radix-ui/themes";
 
-const defaultPageSize = 8;
+const defaultPageSize = 14;
 // const PageComponent = dynamic(() => import('@/app/ui/common/pagination'), { ssr: false })
 
 interface BlogParam {
@@ -38,34 +38,18 @@ export default async function CardWarpper(param: QueryParam) {
     num: param.pageNum,
     keyword: param.query,
   });
-  let firstHalfPLogs, secondHalfPLogs;
-  if (
-    plogs.slice(0, plogs.length / 2).length <
-    plogs.slice(plogs.length / 2).length
-  ) {
-    [secondHalfPLogs, firstHalfPLogs] = [
-      plogs.slice(0, plogs.length / 2),
-      plogs.slice(plogs.length / 2),
-    ];
-  } else {
-    [firstHalfPLogs, secondHalfPLogs] = [
-      plogs.slice(0, plogs.length / 2),
-      plogs.slice(plogs.length / 2),
-    ];
-  }
   return (
     <>
-      <Flex pb="4" gap="4" direction="row">
-        <CardRow blogs={firstHalfPLogs} />
-      </Flex>
-      <Flex pb="4" gap="4" direction="row">
-        <CardRow blogs={secondHalfPLogs} />
-      </Flex>
-      <Pagination
-        pageSize={defaultPageSize}
-        totalPage={totalPage}
-        path="plog"
-      />
+      <Grid columns="7" gap="3" width="auto">
+        <CardRow blogs={plogs} />
+      </Grid>
+      <div className="mt-6">
+        <Pagination
+          pageSize={defaultPageSize}
+          totalPage={totalPage}
+          path="plog"
+        />
+      </div>
     </>
   );
 }
