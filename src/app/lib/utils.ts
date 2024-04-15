@@ -1,3 +1,5 @@
+import { Query } from "./dataDefinition";
+
 const getRandomColor = (tagsColors: string[]): any => {
   const randomIndex = Math.floor(Math.random() * tagsColors.length);
   return tagsColors[randomIndex];
@@ -31,4 +33,14 @@ function storageObj(isServer: boolean, key: string, obj: any): void {
   }
 }
 
-export { getRandomColor, getTotalPage, parseLocalStorgeObj, storageObj };
+function getSqlByQuery(query: Query[] | null) : string {
+  var sql = 'where 1 = 1';
+  if(query){
+    query.map(r => {
+      sql += `and ${r.table}.${r.filed} ${r.exp} ${r.val}`
+    })
+  }
+  return sql
+}
+
+export { getRandomColor, getTotalPage, parseLocalStorgeObj, storageObj,getSqlByQuery };

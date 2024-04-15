@@ -90,7 +90,8 @@ export interface QueryParam {
 }
 
 export type Query = {
-  val: string;
+  val: string | undefined;
   exp: Expression;
   filed: string;
+  table: string;
 }

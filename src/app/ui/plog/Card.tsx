@@ -18,7 +18,10 @@ import { Grid } from "@radix-ui/themes";
 
 const defaultPageSize = 14;
 
-export default async function CardWarpper(param: QueryParam) {
+export default async function CardWarpper({param,columnSize}:{param: QueryParam,columnSize: number| null}) {
+  if(!columnSize){
+    columnSize = 7
+  }
   const countPlogs = await fecthBlogCount(param.query);
   const totalPage = getTotalPage(param.size || defaultPageSize, countPlogs.totalResult);
   const plogs = await fecthRandomBlog({
@@ -28,7 +31,7 @@ export default async function CardWarpper(param: QueryParam) {
   });
   return (
     <>
-      <Grid columns="7" gap="3" width="auto">
+      <Grid columns={columnSize.toString()} gap="3" width="auto">
         {param.extra && <MyPlogCardRow blogs={plogs} /> }
         {!param.extra && <CardRow blogs={plogs} /> }
       </Grid>
@@ -45,7 +48,6 @@ export default async function CardWarpper(param: QueryParam) {
 
 function CardRow(param: BlogParam) {
   const blogs = param.blogs;
-  console.log('param',param);
   
   return (
     <>
