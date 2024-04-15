@@ -141,20 +141,15 @@ function MyPlogCardRow(param: BlogParam) : React.ReactElement{
           tags = plog.tags.split(",");
         }
         const badge = getTags(tags);
-        {
-          /* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */
-        }
         return (
             <Link key={plog.post_id} href={linkHref}>
               <Card style={{ maxWidth: 300 }}>
                 {/* top */}
                 <Flex gap="2" direction="column">
                   <Flex gap="4">
-                    {/* 添加一些小徽章，表示Tag */}
                     {badge}
                   </Flex>
                   <Flex gap="2">
-                    {/* post_img */}
                     <Image
                       className="Image"
                       src={imgUrl}
@@ -163,23 +158,21 @@ function MyPlogCardRow(param: BlogParam) : React.ReactElement{
                       alt={plog.title}
                     />
                   </Flex>
-                  <Flex justify="between" pt="1">
                   <Flex gap="3" justify="between">
-                    {/* 标题 */}
                     <Text>
                       <Strong>{plog.title}</Strong>
                     </Text>
                   </Flex>
+                  <Flex justify="between" pt="1">
+                  
                     <Flex align="center">
                       <ChatBubbleIcon />
-                      {/* margin-left 边距2 */}
                       <Text color="gray" ml="2" size="1">
                         {plog.comments} Comments
                       </Text>
                     </Flex>
                     <Flex align="center">
                       <HeartIcon />
-                      {/* margin-left 边距2 */}
                       <Text color="gray" ml="1" size="1">
                         {plog.likes}
                       </Text>
