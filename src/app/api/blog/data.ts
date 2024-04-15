@@ -1,5 +1,5 @@
 import pool from "../../public/db";
-import { Blog, BlogUser } from "@/app/lib/dataDefinition";
+import { Blog, BlogUser, Query } from "@/app/lib/dataDefinition";
 
 export async function getBlogById(id: string) {
   const connect = await pool.getConnection();
@@ -11,18 +11,18 @@ export async function getBlogById(id: string) {
 export async function fecthRandomBlog({
   size,
   num,
-  keyword,
+  query,
 }: {
   size: number;
   num: number;
-  keyword: string;
+  query: Query[] | null;
 }) {
   size = size ? size : 10;
   num = num ? num : 1;
   let keywordStr = "";
-  if (keyword) {
-    keywordStr = `where t1.title like '%${keyword}%' or t1.context like '%${keyword}%' or t2.name like '%${keyword}%'`;
-  }
+  // if (keyword) {
+  //   keywordStr = `where t1.title like '%${keyword}%' or t1.context like '%${keyword}%' or t2.name like '%${keyword}%'`;
+  // }
   const limitStr = (num - 1) * size + "," + size;
   const connect = await pool.getConnection();
   const data = await connect.query(
@@ -32,12 +32,12 @@ export async function fecthRandomBlog({
   return data[0] as BlogUser[];
 }
 
-export async function fecthBlogCount(keyword: string) {
+export async function fecthBlogCount(query: Query[] | null) {
   const connect = await pool.getConnection();
   let keywordStr = "";
-  if (keyword) {
-    keywordStr = `where t1.title like '%${keyword}%' or t1.context like '%${keyword}%' or t2.name like '%${keyword}%'`;
-  }
+  // if (keyword) {
+  //   keywordStr = `where t1.title like '%${keyword}%' or t1.context like '%${keyword}%' or t2.name like '%${keyword}%'`;
+  // }
   const data = await connect.query(
     `select count(1) as totalResult from blog t1 left join users t2 on t1.poster_id = t2.id ${keywordStr}`,
   );

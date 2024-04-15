@@ -77,3 +77,20 @@ export type LoginState = {
   errorMsg: string | null;
   user: AuthUser | null;
 };
+
+export interface BlogParam {
+  blogs: BlogUser[];
+}
+
+export interface QueryParam {
+  pageNum: any;
+  size: number | undefined;
+  query: Query[] | null;
+  extra: boolean;
+}
+
+export type Query = {
+  val: string;
+  exp: Expression;
+  filed: string;
+}

@@ -4,7 +4,7 @@ const PlogPage = {
   Login: "/login",
   SignBoard: "/plog/sign-board",
   NottGitHub: "https://github.com/IsNott",
-  MyDashBorad: "/my",
+  MyDashBorad: "/plog/my-page",
 };
 
 export default PlogPage;

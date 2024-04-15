@@ -1,13 +1,12 @@
 import { fecthRandomBlog, fecthBlogCount } from "@/app/api/blog/data";
-import { Flex, Card, Avatar, Text, Badge, Strong, Box } from "@radix-ui/themes";
+import { Flex, Card, Avatar, Text, Badge, Strong } from "@radix-ui/themes";
 import {
-  CardStackIcon,
   ChatBubbleIcon,
   HeartIcon,
 } from "@radix-ui/react-icons";
 import Link from "next/link";
 import Image from "next/image";
-import { BlogUser } from "@/app/lib/dataDefinition";
+import { BlogUser,BlogParam,QueryParam } from "@/app/lib/dataDefinition";
 import { getRandomColor } from "@/app/lib/utils";
 import tagsColors from "@/app/lib/enum";
 import { getTotalPage } from "@/app/lib/utils";
@@ -18,30 +17,20 @@ import PlogPage from "@/app/router/router";
 import { Grid } from "@radix-ui/themes";
 
 const defaultPageSize = 14;
-// const PageComponent = dynamic(() => import('@/app/ui/common/pagination'), { ssr: false })
-
-interface BlogParam {
-  blogs: BlogUser[];
-}
-
-interface QueryParam {
-  pageNum: any;
-  size: number | undefined;
-  query: any;
-}
 
 export default async function CardWarpper(param: QueryParam) {
   const countPlogs = await fecthBlogCount(param.query);
-  const totalPage = getTotalPage(defaultPageSize, countPlogs.totalResult);
+  const totalPage = getTotalPage(param.size || defaultPageSize, countPlogs.totalResult);
   const plogs = await fecthRandomBlog({
     size: param.size ? param.size : defaultPageSize,
     num: param.pageNum,
-    keyword: param.query,
+    query: param.query
   });
   return (
     <>
       <Grid columns="7" gap="3" width="auto">
-        <CardRow blogs={plogs} />
+        {param.extra && <MyPlogCardRow blogs={plogs} /> }
+        {!param.extra && <CardRow blogs={plogs} /> }
       </Grid>
       <div className="mt-6">
         <Pagination
@@ -56,6 +45,8 @@ export default async function CardWarpper(param: QueryParam) {
 
 function CardRow(param: BlogParam) {
   const blogs = param.blogs;
+  console.log('param',param);
+  
   return (
     <>
       {blogs.map((plog: BlogUser) => {
@@ -136,6 +127,71 @@ function CardRow(param: BlogParam) {
   );
 }
 
+function MyPlogCardRow(param: BlogParam) : React.ReactElement{
+  const blogs = param.blogs;
+  return (
+    <>
+      {blogs.map((plog: BlogUser) => {
+        const linkHref = PlogPage.Detail + plog.post_id;
+        const imgUrl = plog.img_urls.split(",")[0];
+        var tags: string[] = [];
+        if (plog.tags) {
+          tags = plog.tags.split(",");
+        }
+        const badge = getTags(tags);
+        {
+          /* 在这一列Flex下所有的子元素都会继承4个gap（间隙） */
+        }
+        return (
+            <Link key={plog.post_id} href={linkHref}>
+              <Card style={{ maxWidth: 300 }}>
+                {/* top */}
+                <Flex gap="2" direction="column">
+                  <Flex gap="4">
+                    {/* 添加一些小徽章，表示Tag */}
+                    {badge}
+                  </Flex>
+                  <Flex gap="2">
+                    {/* post_img */}
+                    <Image
+                      className="Image"
+                      src={imgUrl}
+                      width="600"
+                      height="300"
+                      alt={plog.title}
+                    />
+                  </Flex>
+                  <Flex justify="between" pt="1">
+                  <Flex gap="3" justify="between">
+                    {/* 标题 */}
+                    <Text>
+                      <Strong>{plog.title}</Strong>
+                    </Text>
+                  </Flex>
+                    <Flex align="center">
+                      <ChatBubbleIcon />
+                      {/* margin-left 边距2 */}
+                      <Text color="gray" ml="2" size="1">
+                        {plog.comments} Comments
+                      </Text>
+                    </Flex>
+                    <Flex align="center">
+                      <HeartIcon />
+                      {/* margin-left 边距2 */}
+                      <Text color="gray" ml="1" size="1">
+                        {plog.likes}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </Card>
+            </Link>
+        );
+      })}
+    </>
+  );
+}
+
 function getTags(tags: string[]) {
   return (
     <div>
@@ -147,3 +203,5 @@ function getTags(tags: string[]) {
     </div>
   );
 }
+
+export {MyPlogCardRow}

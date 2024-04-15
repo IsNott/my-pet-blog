@@ -63,7 +63,7 @@ export function CardSkeleton() {
               <div className="flex p-4">
                 <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
                   <div
-                    style={{ width: 200, height: 280 }}
+                    style={{ width: 200, height: 230 }}
                     className="rounded-md bg-gray-200"
                   />
                 </div>
