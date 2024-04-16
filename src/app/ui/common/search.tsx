@@ -4,6 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { TextField } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Expression, Query, SQLType } from "@/app/lib/dataDefinition";
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const param = useSearchParams();
@@ -11,8 +12,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter();
   const handleSearch = useDebouncedCallback((term) => {
     const searchParam = new URLSearchParams(param);
+    const query : Query[] = [] 
     searchParam.set("page", "1");
-    if (term) {
+    if (term && term != undefined) {
       searchParam.set("query", term);
     } else {
       searchParam.delete("query");

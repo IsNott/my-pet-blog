@@ -1,4 +1,6 @@
-import { Query } from "./dataDefinition";
+import { Dayjs } from "dayjs";
+import { Query, SQLType } from "./dataDefinition";
+import { error } from "console";
 
 const getRandomColor = (tagsColors: string[]): any => {
   const randomIndex = Math.floor(Math.random() * tagsColors.length);
@@ -37,7 +39,27 @@ function getSqlByQuery(query: Query[] | null) : string {
   var sql = 'where 1 = 1';
   if(query){
     query.map(r => {
-      sql += `and ${r.table}.${r.filed} ${r.exp} ${r.val}`
+      if(r.exp && r.filed && r.table && r.val && r.type){
+        let val = r.val
+        switch(r.type){
+          default: 
+           throw error(`Sql Type not support ${r.type}`)
+          case SQLType.VARCHAR : {
+            val = `'${r.type}'`
+            break
+          }
+          case(SQLType.NUMBER) : {
+            break
+          }
+          case(SQLType.DATE) : {
+            //todo format date
+          }
+          case(SQLType.DATE_TIME) : {
+            //todo format date
+          }
+        }
+        sql += ` and ${r.table}.${r.filed} ${r.exp} ${val}`
+      }
     })
   }
   return sql

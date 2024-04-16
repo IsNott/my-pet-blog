@@ -2,7 +2,7 @@ import { Container, IconButton } from "@radix-ui/themes";
 import CardWarpper from "@/app/ui/plog/Card";
 import { Suspense } from "react";
 import { IndexCardSkeleton } from "@/app/ui/plog/skeletons";
-import { Expression, Query, QueryParam } from "../lib/dataDefinition";
+import { Expression, Query, QueryParam, SQLType } from "../lib/dataDefinition";
 export default function Home({
   searchParams,
 }: {
@@ -13,15 +13,26 @@ export default function Home({
   };
  
 }) {
-  const query:Query = {
-    val: searchParams?.query,
-    exp: Expression.EQ,
-    filed: 'title',
-    table: 't1'
+  let query: Query[] = []
+  if(searchParams?.query){
+    const term = searchParams.query
+    query.push({
+      table: 't1',
+      filed: 'title',
+      exp: Expression.LIKE,
+      val: '%' + term + '%',
+      type: SQLType.VARCHAR
+    },{
+      table: 't1',
+      filed: 'context',
+      exp: Expression.LIKE,
+      val: '%' + term + '%',
+      type: SQLType.VARCHAR
+    })
   }
   const param : QueryParam = {
     size:searchParams?.size,
-    query:[query],
+    query:query,
     pageNum:searchParams?.page,
     extra: false
     

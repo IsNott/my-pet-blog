@@ -49,6 +49,13 @@ export enum Expression {
   NOT_NULL = "NOT NULL",
 }
 
+export enum SQLType {
+  VARCHAR = 'varchar',
+  NUMBER = 'NUMBER' ,
+  DATE = 'DATE',
+  DATE_TIME = 'DATE_TIME'
+}
+
 export type Condition = {
   val: any;
   field: string;
@@ -94,4 +101,5 @@ export type Query = {
   exp: Expression;
   filed: string;
   table: string;
+  type: SQLType;
 }

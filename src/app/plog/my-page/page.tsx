@@ -6,10 +6,10 @@ import { auth } from "@/auth";
 export  default async function MyPage() {
     const session : any = await auth()
   const query =  [{
-    val: '',
+  val: session.sub,
   exp: Expression.EQ,
-  filed: '',
-  table: ''
+  filed: 'id',
+  table: 't1'
   }]
   const param: QueryParam = {
     pageNum:1, 

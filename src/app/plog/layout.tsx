@@ -1,4 +1,4 @@
-import TopNav from "../ui/common/topNav";
+import TopNav from "../ui/common/top-nav";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     // flex: 这个类名表明该 <div> 元素采用了弹性布局，其子元素会按照一定的规则自动伸缩。
