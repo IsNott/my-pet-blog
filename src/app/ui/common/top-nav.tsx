@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 export default function TopNav() {
-  console.log("current pathname:", usePathname());
+  const pathname = usePathname()
   const { data }: { data: any } = useSession();
   const token = data?.session;
   let placeText = "Search Plog ...";
@@ -25,7 +25,7 @@ export default function TopNav() {
               Litter Dog Book
             </Text>
           </Link>
-          <Search placeholder={placeText} />
+          {PlogPage.MyDashBorad != pathname && <Search placeholder={placeText} />}
           <Flex align="center" mr="5" justify="between" gap="5">
             {/* 创建post */}
             {token && <CreateForm userId={token.sub} />}

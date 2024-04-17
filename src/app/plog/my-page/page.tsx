@@ -7,24 +7,33 @@ import {
   Separator,
   Grid,
 } from "@radix-ui/themes";
-import { Expression, QueryParam } from "@/app/lib/dataDefinition";
+import { Expression, QueryParam,Query, SQLType } from "@/app/lib/dataDefinition";
 import CardWarpper from "@/app/ui/plog/Card";
 import { auth } from "@/auth";
 
-export default async function MyPage() {
+export default async function MyPage({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+    size?: number | undefined;
+  };
+}) {
   const session: any = await auth();
-  const query = [
+  const query : Query[] = [
     {
       val: session.sub,
       exp: Expression.EQ,
-      filed: "id",
+      filed: "poster_id",
       table: "t1",
+      type: SQLType.VARCHAR
     },
   ];
   const param: QueryParam = {
-    pageNum: 1,
+    pageNum: searchParams?.page || 1,
     size: 10,
-    query: null,
+    query: query,
     extra: true,
   };
   return (

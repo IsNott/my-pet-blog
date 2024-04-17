@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { Query, SQLType, Expression } from "./dataDefinition";
-import { error } from "console";
 import { boolean } from "zod";
 
 const getRandomColor = (tagsColors: string[]): any => {
@@ -40,6 +39,7 @@ function getSqlByQuery(query: Query[] | null): string {
   var sql = "where 1 = 1";
   if (query) {
     query.map((r) => {
+      let val = r.val
       let needSecond = true;
       if (r.exp && r.filed && r.table && r.type) {
         switch (r.exp) {
@@ -60,9 +60,9 @@ function getSqlByQuery(query: Query[] | null): string {
               throw error(`Sql Type not support ${r.type}`);
             case SQLType.VARCHAR: {
               if (r.exp === Expression.LIKE) {
-                r.val = `'%${r.type}%'`;
-              } else {
-                r.val = `'${r.type}'`;
+                val = `'%${r.val}%'`
+              } else{
+                val = `'${r.val}'`
               }
               break;
             }
@@ -71,22 +71,22 @@ function getSqlByQuery(query: Query[] | null): string {
             }
             case SQLType.DATE: {
               let format = dayjs(r.val).format("YYYY/MM/DD");
-              r.val = `'${format}'`;
+              val = `'${format}'`;
               break;
             }
             case SQLType.DATE_TIME: {
               let format = dayjs(r.val).format("YYYY/MM/DD HH:mm:ss");
-              r.val = `'${format}'`;
+              val = `'${format}'`;
               break;
             }
           }
         }
         if (needSecond) {
-          sql += ` and ${r.table}.${r.filed} ${r.exp} ${r.val}`;
+          sql += ` and ${r.table}.${r.filed} ${r.exp} ${val}`;
         }
       }
     });
-  }
+  }  
   return sql;
 }
 
