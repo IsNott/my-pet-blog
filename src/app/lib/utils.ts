@@ -1,6 +1,7 @@
-import { Dayjs } from "dayjs";
-import { Query, SQLType } from "./dataDefinition";
+import dayjs from "dayjs";
+import { Query, SQLType, Expression } from "./dataDefinition";
 import { error } from "console";
+import { boolean } from "zod";
 
 const getRandomColor = (tagsColors: string[]): any => {
   const randomIndex = Math.floor(Math.random() * tagsColors.length);
@@ -35,34 +36,64 @@ function storageObj(isServer: boolean, key: string, obj: any): void {
   }
 }
 
-function getSqlByQuery(query: Query[] | null) : string {
-  var sql = 'where 1 = 1';
-  if(query){
-    query.map(r => {
-      if(r.exp && r.filed && r.table && r.val && r.type){
-        let val = r.val
-        switch(r.type){
-          default: 
-           throw error(`Sql Type not support ${r.type}`)
-          case SQLType.VARCHAR : {
-            val = `'${r.type}'`
-            break
-          }
-          case(SQLType.NUMBER) : {
-            break
-          }
-          case(SQLType.DATE) : {
-            //todo format date
-          }
-          case(SQLType.DATE_TIME) : {
-            //todo format date
+function getSqlByQuery(query: Query[] | null): string {
+  var sql = "where 1 = 1";
+  if (query) {
+    query.map((r) => {
+      let needSecond = true;
+      if (r.exp && r.filed && r.table && r.type) {
+        switch (r.exp) {
+          default:
+            break;
+          case Expression.NOT_NULL:
+            sql += ` and ${r.table}.${r.filed} IS NOT NULL`;
+            needSecond = false;
+            break;
+          case Expression.NULL:
+            sql += ` and ${r.table}.${r.filed} IS NULL`;
+            needSecond = false;
+            break;
+        }
+        if (r.val) {
+          switch (r.type) {
+            default:
+              throw error(`Sql Type not support ${r.type}`);
+            case SQLType.VARCHAR: {
+              if (r.exp === Expression.LIKE) {
+                r.val = `'%${r.type}%'`;
+              } else {
+                r.val = `'${r.type}'`;
+              }
+              break;
+            }
+            case SQLType.NUMBER: {
+              break;
+            }
+            case SQLType.DATE: {
+              let format = dayjs(r.val).format("YYYY/MM/DD");
+              r.val = `'${format}'`;
+              break;
+            }
+            case SQLType.DATE_TIME: {
+              let format = dayjs(r.val).format("YYYY/MM/DD HH:mm:ss");
+              r.val = `'${format}'`;
+              break;
+            }
           }
         }
-        sql += ` and ${r.table}.${r.filed} ${r.exp} ${val}`
+        if (needSecond) {
+          sql += ` and ${r.table}.${r.filed} ${r.exp} ${r.val}`;
+        }
       }
-    })
+    });
   }
-  return sql
+  return sql;
 }
 
-export { getRandomColor, getTotalPage, parseLocalStorgeObj, storageObj,getSqlByQuery };
+export {
+  getRandomColor,
+  getTotalPage,
+  parseLocalStorgeObj,
+  storageObj,
+  getSqlByQuery,
+};

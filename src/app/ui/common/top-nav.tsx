@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 export default function TopNav() {
-  console.log('current pathname:',usePathname());
+  console.log("current pathname:", usePathname());
   const { data }: { data: any } = useSession();
   const token = data?.session;
   let placeText = "Search Plog ...";

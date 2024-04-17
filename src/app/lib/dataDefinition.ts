@@ -50,10 +50,10 @@ export enum Expression {
 }
 
 export enum SQLType {
-  VARCHAR = 'varchar',
-  NUMBER = 'NUMBER' ,
-  DATE = 'DATE',
-  DATE_TIME = 'DATE_TIME'
+  VARCHAR = "varchar",
+  NUMBER = "NUMBER",
+  DATE = "DATE",
+  DATE_TIME = "DATE_TIME",
 }
 
 export type Condition = {
@@ -102,4 +102,4 @@ export type Query = {
   filed: string;
   table: string;
   type: SQLType;
-}
+};
