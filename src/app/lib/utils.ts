@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { Query, SQLType, Expression } from "./dataDefinition";
-import { boolean } from "zod";
 
 const getRandomColor = (tagsColors: string[]): any => {
   const randomIndex = Math.floor(Math.random() * tagsColors.length);

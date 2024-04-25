@@ -6,7 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import pool from "../public/db";
 import { User } from "./dataDefinition";
-import { LoginState, State } from "./dataDefinition";
+import { RegisterState,LogState, State } from "./dataDefinition";
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 const PlogFormSchema = z.object({
   senderId: z.string(),
@@ -15,22 +17,25 @@ const PlogFormSchema = z.object({
   imgs: z.string().min(32, { message: "Please upload last 1 picture." }),
 });
 
+const LogupFormSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  password: z.string().min(6)
+})
+
 const CreatPlog = PlogFormSchema.omit({});
+
 
 // 登录
 export async function authenticate(
-  pervState: LoginState | undefined,
+  pervState: LogState | undefined,
   formData: FormData,
-): Promise<LoginState> {
+): Promise<LogState> {
   try {
     const user: User = await signIn("credentials", formData);
     return {
       success: true,
-      errorMsg: null,
-      user: {
-        username: user?.name,
-        uid: user?.id,
-      },
+      errorMsg: null
     };
   } catch (error) {
     if (error instanceof AuthError) {
@@ -38,18 +43,65 @@ export async function authenticate(
         case "CredentialsSignin":
           return {
             errorMsg: "Invalid credentials.",
-            success: false,
-            user: null,
+            success: false
           };
         default:
           return {
             errorMsg: "Something went wrong.",
-            success: false,
-            user: null,
+            success: false
           };
       }
     }
     throw error;
+  }
+}
+
+// 注册
+export async function register(pervState:RegisterState,formData:FormData) : Promise<RegisterState> {
+  let connect = null
+  try{
+    const validateFields = LogupFormSchema.omit({}).safeParse({
+      name: formData.get('name'),
+      password: formData.get('password'),
+      email: formData.get('email')
+    })
+    if(!validateFields.success){
+      return{
+        errors: validateFields.error.flatten().fieldErrors,
+        errorMsg: "Field vaild fail.",
+        success: false
+      }
+    }
+    const id = uuidv4()
+    const email = validateFields.data.email
+    const name = validateFields.data.name
+    const password = validateFields.data.password
+    connect = await pool.getConnection();
+    const [rows,field] = await connect.query(`select email from users where email = '${email}'`)
+    
+    if(rows?.length > 0){
+      return{
+        errors: { email : ['Email has been used.']},
+        errorMsg: 'Email vaild fail.',
+        success: false
+      }
+    }else{
+      connect.execute(`insert into users(id,name,email,password) values('${id}','${name}','${email}','${password}')`)
+    }
+  }catch(error){
+    console.log("register error:{}", error);
+    return{
+      errorMsg: "Something went wrong.",
+      success: false
+    }
+  } finally{
+    connect === null ? '' : connect.release()
+  }
+    // 清除这个路由下的缓存
+    revalidatePath('/log')
+  return {
+    errorMsg: null,
+    success: true
   }
 }
 

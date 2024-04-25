@@ -79,11 +79,20 @@ export type AuthUser = {
   uid: string;
 };
 
-export type LoginState = {
+export type LogState = {
   success: boolean;
   errorMsg: string | null;
-  user: AuthUser | null;
 };
+
+export type RegisterState = {
+  errors?:{
+    name?: string[];
+    email?: string[];
+    password?: string[];
+  },
+  success: boolean;
+  errorMsg: string | null;
+}
 
 export interface BlogParam {
   blogs: BlogUser[];
