@@ -12,7 +12,7 @@ import {
 
 const initState = {
   errorMsg: "",
-  success: false
+  success: false,
 } as LogState;
 
 export default function LoginForm() {

@@ -1,3 +1,4 @@
+import { Session } from "next-auth";
 // 定义数据格式
 export type User = {
   id: string;
@@ -85,21 +86,21 @@ export type LogState = {
 };
 
 export type RegisterState = {
-  errors?:{
+  errors?: {
     name?: string[];
     email?: string[];
     password?: string[];
-  },
+  };
   success: boolean;
   errorMsg: string | null;
-}
+};
 
 export interface BlogParam {
   blogs: BlogUser[];
 }
 
 export interface QueryParam {
-  pageNum: any;
+  pageNum: number;
   size: number | undefined;
   query: Query[] | null;
   extra: boolean;
@@ -112,3 +113,28 @@ export type Query = {
   table: string;
   type: SQLType;
 };
+
+export type Comment = {
+  id: string;
+  plogId: string;
+  commentText: string;
+  senderId: string;
+};
+
+export type CommentCount = {
+  id: string;
+  plogId: string;
+  count: number;
+};
+
+export interface ServerAuth extends Session {
+  name: string;
+  email: string;
+  picture: string;
+  sub: string;
+  iat: number;
+  exp: number;
+  jti: string;
+  expires: string;
+  status: string;
+}

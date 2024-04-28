@@ -8,10 +8,11 @@ import bcrypt from "bcrypt";
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
-    const data: any = await pool.query(
+    const [row] = await pool.query(
       `SELECT * FROM users WHERE email='${email}'`,
     );
-    return data[0][0] as User;
+    const users: User[] = row as User[];
+    return users[0];
   } catch (error) {
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");

@@ -1,37 +1,40 @@
+import { Text, Card, Flex, Avatar, Box, Separator } from "@radix-ui/themes";
 import {
-  Text,
-  Card,
-  Flex,
-  Avatar,
-  Box,
-  Separator,
-  Grid,
-} from "@radix-ui/themes";
-import { Expression, QueryParam,Query, SQLType } from "@/app/lib/dataDefinition";
+  Expression,
+  QueryParam,
+  Query,
+  SQLType,
+} from "@/app/lib/dataDefinition";
 import CardWarpper from "@/app/ui/plog/Card";
 import { auth } from "@/auth";
+import { number } from "zod";
+import { ServerAuth } from "@/app/lib/dataDefinition";
+import { Session } from "next-auth";
 
 export default async function MyPage({
   searchParams,
 }: {
   searchParams?: {
-    query?: string;
+    query?: number;
     page?: string;
     size?: number | undefined;
   };
 }) {
-  const session: any = await auth();
-  const query : Query[] = [
+  const session: Session | null = await auth();
+  const custSession = session as ServerAuth;
+  console.log("Debug issues03 auth,", session);
+
+  const query: Query[] = [
     {
-      val: session.sub,
+      val: custSession?.sub,
       exp: Expression.EQ,
       filed: "poster_id",
       table: "t1",
-      type: SQLType.VARCHAR
+      type: SQLType.VARCHAR,
     },
   ];
   const param: QueryParam = {
-    pageNum: searchParams?.page || 1,
+    pageNum: Number(searchParams?.page) || 1,
     size: 10,
     query: query,
     extra: true,
@@ -43,16 +46,16 @@ export default async function MyPage({
           <Flex gap="3" direction="column" align="start">
             <Avatar
               size="9"
-              src={session?.picture}
-              alt={session?.name}
+              src={custSession?.picture}
+              alt={custSession?.name}
               fallback="Avatar"
             />
             <Box>
               <Text as="div" size="6" weight="bold">
-                {session?.name}
+                {custSession?.name}
               </Text>
               <Text as="div" size="2" color="gray">
-                {session?.email}
+                {custSession?.email}
               </Text>
             </Box>
           </Flex>

@@ -6,9 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import pool from "../public/db";
 import { User } from "./dataDefinition";
-import { RegisterState,LogState, State } from "./dataDefinition";
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import { RegisterState, LogState, State } from "./dataDefinition";
+import { revalidatePath } from "next/cache";
 
 const PlogFormSchema = z.object({
   senderId: z.string(),
@@ -20,11 +19,14 @@ const PlogFormSchema = z.object({
 const LogupFormSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  password: z.string().min(6)
-})
+  password: z.string().min(6),
+});
+
+type userEmail = {
+  email: string;
+};
 
 const CreatPlog = PlogFormSchema.omit({});
-
 
 // 登录
 export async function authenticate(
@@ -35,7 +37,7 @@ export async function authenticate(
     const user: User = await signIn("credentials", formData);
     return {
       success: true,
-      errorMsg: null
+      errorMsg: null,
     };
   } catch (error) {
     if (error instanceof AuthError) {
@@ -43,12 +45,12 @@ export async function authenticate(
         case "CredentialsSignin":
           return {
             errorMsg: "Invalid credentials.",
-            success: false
+            success: false,
           };
         default:
           return {
             errorMsg: "Something went wrong.",
-            success: false
+            success: false,
           };
       }
     }
@@ -57,52 +59,59 @@ export async function authenticate(
 }
 
 // 注册
-export async function register(pervState:RegisterState,formData:FormData) : Promise<RegisterState> {
-  let connect = null
-  try{
+export async function register(
+  pervState: RegisterState,
+  formData: FormData,
+): Promise<RegisterState> {
+  let connect = null;
+  try {
     const validateFields = LogupFormSchema.omit({}).safeParse({
-      name: formData.get('name'),
-      password: formData.get('password'),
-      email: formData.get('email')
-    })
-    if(!validateFields.success){
-      return{
+      name: formData.get("name"),
+      password: formData.get("password"),
+      email: formData.get("email"),
+    });
+    if (!validateFields.success) {
+      return {
         errors: validateFields.error.flatten().fieldErrors,
         errorMsg: "Field vaild fail.",
-        success: false
-      }
+        success: false,
+      };
     }
-    const id = uuidv4()
-    const email = validateFields.data.email
-    const name = validateFields.data.name
-    const password = validateFields.data.password
+    const id = uuidv4();
+    const email = validateFields.data.email;
+    const name = validateFields.data.name;
+    const password = validateFields.data.password;
     connect = await pool.getConnection();
-    const [rows,field] = await connect.query(`select email from users where email = '${email}'`)
-    
-    if(rows?.length > 0){
-      return{
-        errors: { email : ['Email has been used.']},
-        errorMsg: 'Email vaild fail.',
-        success: false
-      }
-    }else{
-      connect.execute(`insert into users(id,name,email,password) values('${id}','${name}','${email}','${password}')`)
+    const [rows] = await connect.query(
+      `select email from users where email = '${email}'`,
+    );
+    let userEmails: userEmail[] = rows as userEmail[];
+    if (userEmails?.length > 0) {
+      return {
+        errors: { email: ["Email has been used."] },
+        errorMsg: "Email vaild fail.",
+        success: false,
+      };
+    } else {
+      connect.execute(
+        `insert into users(id,name,email,password) values('${id}','${name}','${email}','${password}')`,
+      );
     }
-  }catch(error){
+  } catch (error) {
     console.log("register error:{}", error);
-    return{
+    return {
       errorMsg: "Something went wrong.",
-      success: false
-    }
-  } finally{
-    connect === null ? '' : connect.release()
+      success: false,
+    };
+  } finally {
+    connect === null ? "" : connect.release();
   }
-    // 清除这个路由下的缓存
-    revalidatePath('/log')
+  // 清除这个路由下的缓存
+  revalidatePath("/log");
   return {
     errorMsg: null,
-    success: true
-  }
+    success: true,
+  };
 }
 
 export async function doNewPost(
@@ -143,12 +152,12 @@ export async function doNewPost(
 }
 
 export async function uploadFile(formData: FormData) {
-  const uploadPath: any = process.env.UPLOAD_PATH;
+  const uploadPath: string | undefined = process.env.UPLOAD_PATH;
   if (!formData.get("file")) {
     return null;
   }
   try {
-    const res = await fetch(uploadPath, {
+    const res = await fetch(uploadPath || "", {
       method: "POST",
       body: formData,
     });
@@ -165,10 +174,10 @@ export async function uploadFile(formData: FormData) {
 }
 
 export async function getFilePreView(id: string[]) {
-  const perviewPath: any = process.env.PERVIEW_PATH;
+  const perviewPath: string | undefined = process.env.PERVIEW_PATH;
   try {
     const url = perviewPath;
-    const res = await fetch(url, {
+    const res = await fetch(url || "", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

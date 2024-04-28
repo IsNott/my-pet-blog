@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { Query, SQLType, Expression } from "./dataDefinition";
 
-const getRandomColor = (tagsColors: string[]): any => {
+const getRandomColor = (tagsColors: string[]): string => {
   const randomIndex = Math.floor(Math.random() * tagsColors.length);
   return tagsColors[randomIndex];
 };
@@ -38,7 +38,7 @@ function getSqlByQuery(query: Query[] | null): string {
   var sql = "where 1 = 1";
   if (query) {
     query.map((r) => {
-      let val = r.val
+      let val = r.val;
       let needSecond = true;
       if (r.exp && r.filed && r.table && r.type) {
         switch (r.exp) {
@@ -56,12 +56,12 @@ function getSqlByQuery(query: Query[] | null): string {
         if (r.val) {
           switch (r.type) {
             default:
-              throw error(`Sql Type not support ${r.type}`);
+              throw new Error(`Sql Type not support ${r.type}`);
             case SQLType.VARCHAR: {
               if (r.exp === Expression.LIKE) {
-                val = `'%${r.val}%'`
-              } else{
-                val = `'${r.val}'`
+                val = `'%${r.val}%'`;
+              } else {
+                val = `'${r.val}'`;
               }
               break;
             }
@@ -85,7 +85,7 @@ function getSqlByQuery(query: Query[] | null): string {
         }
       }
     });
-  }  
+  }
   return sql;
 }
 

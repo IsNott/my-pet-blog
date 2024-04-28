@@ -12,19 +12,19 @@ export default function Pagination({
 }: {
   pageSize: number;
   totalPage: number;
-  path: any;
+  path: string;
 }) {
   const dispatch = useDispatch<AppDispatch>();
-  const currentPageState: any = useAppSelector(
+  const currentPageState: string = useAppSelector(
     (state) => state.plogPageReducer,
   );
   const { replace } = useRouter();
   const param = useSearchParams();
-  const handleSearch = (num: any) => {
+  const handleSearch = (num: number) => {
     // 获取当前浏览器地址栏中的查询参数字符串，并添加搜索参数
     const currentParams = new URLSearchParams(window.location.search);
     const searchParam = new URLSearchParams(param);
-    searchParam.set("page", num);
+    searchParam.set("page", String(num));
     searchParam.set("size", "");
     if (currentParams) {
       currentParams.forEach((value, key) => {
@@ -33,7 +33,7 @@ export default function Pagination({
         }
       });
     }
-    dispatch(setPage(num));
+    dispatch(setPage(String(num)));
     replace(`${path}?${searchParam.toString()}`);
   };
   const handleBtnColor = (pageNum: string) => {

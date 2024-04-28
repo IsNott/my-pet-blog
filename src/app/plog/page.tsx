@@ -20,7 +20,7 @@ export default function Home({
         table: "t1",
         filed: "title",
         exp: Expression.LIKE,
-        val: term ,
+        val: term,
         type: SQLType.VARCHAR,
       },
       {
