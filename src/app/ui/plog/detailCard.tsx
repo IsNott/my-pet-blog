@@ -33,7 +33,7 @@ export default function DetailCard({
 }) {
   var [isLike, setIsVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = blog.img_urls.split(",");
+  const images = blog.img_urls ? blog.img_urls.split(",") : '';
   // 切换到下一张图片
   const showNextImage = () => {
     if (currentImageIndex < images.length - 1) {

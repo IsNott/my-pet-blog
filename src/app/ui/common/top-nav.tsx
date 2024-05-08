@@ -33,14 +33,14 @@ export default function TopNav() {
           <Flex align="center" mr="5" justify="between" gap="5">
             {/* 创建post */}
             {token && <CreateForm userId={token.sub} />}
-            <Link
+            {/* <Link
               className="hidden md:block sm:block"
               href={PlogPage.SignBoard}
             >
               <Text size="4" color="gray">
                 SignBoard
               </Text>
-            </Link>
+            </Link> */}
             {!token && (
               <Link className="hidden md:block sm:block" href={PlogPage.Login}>
                 <Text size="4" color="gray">

@@ -7,7 +7,7 @@ export async function getBlogById(id: string) {
   const [row] = await connect.query("select * from blog where id = ?", id);
   const results: Blog[] = row as Blog[];
   connect.release();
-  return results;
+  return results[0];
 }
 
 export async function fecthRandomBlog({
@@ -31,19 +31,22 @@ export async function fecthRandomBlog({
 
   // count comment
   let ids = plogResult.map((r) => `'${r.post_id}'`);
-  let countCommnetSql = `select plog_id,count(plog_id) as count from comment where plog_id in(${ids}) group By plog_id`;
-  console.log("Debug issue01 countCommnetSql:", countCommnetSql);
+  if(ids.length > 0){
+    let countCommnetSql = `select plog_id,count(plog_id) as count from comment where plog_id in(${ids}) group By plog_id`;
+    console.log("Debug issue01 countCommnetSql:", countCommnetSql);
 
-  const [comment] = await connect.query(countCommnetSql);
-  let commntCountResult: CommentCount[] = comment as CommentCount[];
-
-  plogResult.forEach((r) => {
-    commntCountResult.forEach((c) => {
-      if ((c.plogId = r.post_id)) {
-        r.comments = c.count;
-      }
+    const [comment] = await connect.query(countCommnetSql);
+    let commntCountResult: CommentCount[] = comment as CommentCount[];
+    plogResult.forEach((r) => {
+      commntCountResult.forEach((c) => {
+        if ((c.plogId = r.post_id)) {
+          r.comments = c.count;
+        }
+      });
     });
-  });
+  }
+  console.log("Debug issue03 blogs",plogResult);
+  
   connect.release();
   return plogResult;
 }

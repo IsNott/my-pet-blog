@@ -171,7 +171,7 @@ function MyPlogCardRow(param: BlogParam): React.ReactElement {
                   <Flex align="center">
                     <ChatBubbleIcon />
                     <Text color="gray" ml="2" size="1">
-                      {plog.comments} Comments
+                      {plog.comments ? plog.comments : 0} Comments
                     </Text>
                   </Flex>
                   <Flex align="center">

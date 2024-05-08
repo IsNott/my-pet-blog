@@ -127,6 +127,11 @@ export type CommentCount = {
   count: number;
 };
 
+export type UserPageCountData = {
+  like: number;
+  post: number;
+}
+
 export interface ServerAuth extends Session {
   name: string;
   email: string;

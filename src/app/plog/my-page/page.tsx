@@ -4,13 +4,13 @@ import {
   QueryParam,
   Query,
   SQLType,
+  UserPageCountData,
 } from "@/app/lib/dataDefinition";
 import CardWarpper from "@/app/ui/plog/Card";
 import { auth } from "@/auth";
-import { number } from "zod";
 import { ServerAuth } from "@/app/lib/dataDefinition";
 import { Session } from "next-auth";
-
+import { countDataByUserId } from "@/app/api/user/data";
 export default async function MyPage({
   searchParams,
 }: {
@@ -23,7 +23,7 @@ export default async function MyPage({
   const session: Session | null = await auth();
   const custSession = session as ServerAuth;
   console.log("Debug issues03 auth,", session);
-
+  const data : UserPageCountData = await countDataByUserId(custSession?.sub)
   const query: Query[] = [
     {
       val: custSession?.sub,
@@ -63,11 +63,11 @@ export default async function MyPage({
           <Flex justify="between" align="center" gap="3" direction="row">
             <Flex direction="column">
               <Text weight="bold">Like</Text>
-              <Text>100+</Text>
+              <Text>{data.like}</Text>
             </Flex>
             <Flex direction="column">
               <Text weight="bold">Post</Text>
-              <Text>100+</Text>
+              <Text>{data.post}</Text>
             </Flex>
           </Flex>
         </Card>

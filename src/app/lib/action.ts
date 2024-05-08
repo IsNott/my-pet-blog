@@ -8,6 +8,8 @@ import pool from "../public/db";
 import { User } from "./dataDefinition";
 import { RegisterState, LogState, State } from "./dataDefinition";
 import { revalidatePath } from "next/cache";
+import bcrypt from "bcrypt";
+
 
 const PlogFormSchema = z.object({
   senderId: z.string(),
@@ -80,7 +82,7 @@ export async function register(
     const id = uuidv4();
     const email = validateFields.data.email;
     const name = validateFields.data.name;
-    const password = validateFields.data.password;
+    const password = await bcrypt.hash(validateFields.data.password, 10);
     connect = await pool.getConnection();
     const [rows] = await connect.query(
       `select email from users where email = '${email}'`,
